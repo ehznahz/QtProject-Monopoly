@@ -1,11 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>resources/image/background.png</file>
-        <file>resources/image/buttonColor.png</file>
         <file>resources/image/icons/exit.png</file>
         <file>resources/image/icons/info.png</file>
         <file>resources/image/icons/setting.png</file>
         <file>resources/image/icons/checked.png</file>
         <file>resources/image/background-noIcon.png</file>
+        <file>resources/image/icons/dice.png</file>
     </qresource>
 </RCC>

@@ -28,15 +28,12 @@ startMenu::startMenu(QWidget *parent): QWidget{parent}{
     // TODO 通知确定模块化
     connect(exitBtn,&stylizedButton::clicked,this,[=](){
         QWidget* pop = new QWidget();
+        pop->setObjectName("quitWidget");
+        pop->setStyleSheet("QWidget#quitWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
         pop->setParent(this->parentWidget());
         pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
         pop->setFixedSize(1600,900);
         pop->move(0,0);
-        QPalette pal = palette();
-        pal.setColor(QPalette::Window, QColor(0,0,0,200));
-        pop->setPalette(pal);
-        pop->setAutoFillBackground(true);
-
         //按钮
         stylizedButton* confirm = new stylizedButton("确定",230,50);
         confirm->setParent(pop);

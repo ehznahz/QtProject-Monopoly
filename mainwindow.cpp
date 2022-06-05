@@ -10,6 +10,8 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
 {
     ui->setupUi(this);
     setFixedSize(1600,900);
+    this->setWindowTitle("Monopoly");
+    this->setWindowIcon(QIcon(":/resources/image/icons/dice.png"));
 
     startMenu* newMenu = new startMenu(this);
     newMenu->move(0,0);
