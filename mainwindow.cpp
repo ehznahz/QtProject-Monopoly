@@ -2,26 +2,26 @@
 #include "ui_mainwindow.h"
 #include "QApplication"
 #include "QPainter"
-#include "stylizedbutton.h"
+#include "startmenu.h"
+#include "QPalette"
+#include "QGraphicsBlurEffect"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     setFixedSize(1600,900);
-    stylizedButton* btn = new stylizedButton("开始游戏",500,80);
-    btn->setParent(this);
-    btn->move(this->width()*0.5-btn->width()*0.5,this->height()*0.62);
-    btn->setFont(QFont("Noto Sans SC",20,700));
+
+    startMenu* newMenu = new startMenu(this);
+    newMenu->move(0,0);
+    newMenu->show();
+
 }
 
-void MainWindow::paintEvent(QPaintEvent*){
-    QPainter painter(this);
-    QPixmap bk("://resources/image/background.png");
-    //抗锯齿
-    painter.setRenderHint(QPainter::Antialiasing);
-    //更好的缩放
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.drawPixmap(0,0,this->width(),this->height(),bk);
+void MainWindow::initPainter(QPainter* painter)const{
+        QMainWindow::initPainter(painter);
+        //抗锯齿
+        painter->setRenderHint(QPainter::Antialiasing);
+        painter->setRenderHint(QPainter::SmoothPixmapTransform);
 }
 
 MainWindow::~MainWindow()

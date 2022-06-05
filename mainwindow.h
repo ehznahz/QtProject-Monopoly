@@ -15,8 +15,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    //重写paintEvent 调整页面背景
-    void paintEvent(QPaintEvent *);
+    //重写initPainter
+    void initPainter(QPainter *)const;
 
 
 private:
