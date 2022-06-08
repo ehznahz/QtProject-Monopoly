@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     eventwatcher.cpp \
+    gameinitial.cpp \
     main.cpp \
     mainwindow.cpp \
     startmenu.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     eventwatcher.h \
+    gameinitial.h \
     mainwindow.h \
     startmenu.h \
     stylizedbutton.h

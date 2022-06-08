@@ -5,6 +5,7 @@
 #include "startmenu.h"
 #include "QPalette"
 #include "QGraphicsBlurEffect"
+#include "gameinitial.h"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow)
 {
@@ -16,6 +17,14 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindo
     startMenu* newMenu = new startMenu(this);
     newMenu->move(0,0);
     newMenu->show();
+    gameInitial* initMenu = new gameInitial(this);
+    initMenu->move(0,0);
+    initMenu->hide();
+
+    connect(newMenu,&startMenu::beginClicked,this,[=](){
+        newMenu->hide();
+        initMenu->show();
+    });
 
 }
 

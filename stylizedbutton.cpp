@@ -27,8 +27,7 @@ stylizedButton::stylizedButton(QString text,int _width,int _height):QPushButton(
     effect->setOffset(2,2);
     this->setGraphicsEffect(effect);
     //checkable 特性
-    this->setLayoutDirection(Qt::RightToLeft);
-    connect(this,&stylizedButton::toggled,[=](bool clicked){
+    connect(this,&stylizedButton::toggled,[=](bool){
         this->update();
     });
 }

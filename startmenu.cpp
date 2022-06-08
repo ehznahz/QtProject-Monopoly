@@ -12,6 +12,7 @@ startMenu::startMenu(QWidget *parent): QWidget{parent}{
     startBtn->setParent(this);
     startBtn->move(this->width()*0.5-startBtn->width()*0.5,this->height()*0.62);
     startBtn->setFont(QFont("Noto Sans SC",20,700));
+    connect(startBtn,SIGNAL(clicked(bool)),this,SIGNAL(beginClicked(bool)));
 
     //游戏信息
     stylizedButton* infoBtn = new stylizedButton(44,44,":/resources/image/icons/info.png");

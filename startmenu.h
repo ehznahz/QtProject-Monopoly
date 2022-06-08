@@ -11,6 +11,7 @@ public:
     void paintEvent(QPaintEvent *);
 
 signals:
+    void beginClicked(bool checked);
 
 };
 
