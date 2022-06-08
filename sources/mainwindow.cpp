@@ -1,15 +1,14 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
+#include "headers/mainwindow.h"
+#include "headers/gameinitial.h"
+#include "headers/startmenu.h"
 #include "QApplication"
 #include "QPainter"
-#include "startmenu.h"
 #include "QPalette"
 #include "QGraphicsBlurEffect"
-#include "gameinitial.h"
 
-MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),ui(new Ui::MainWindow)
+
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
-    ui->setupUi(this);
     setFixedSize(1600,900);
     this->setWindowTitle("Monopoly");
     this->setWindowIcon(QIcon(":/resources/image/icons/dice.png"));
@@ -35,8 +34,4 @@ void MainWindow::initPainter(QPainter* painter)const{
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
 

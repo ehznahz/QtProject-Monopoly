@@ -1,6 +1,7 @@
-#include "eventwatcher.h"
+#include "headers/eventwatcher.h"
+#include "headers/stylizedbutton.h"
+
 #include "QGraphicsEffect"
-#include "stylizedbutton.h"
 #include "QApplication"
 
 eventWatcher::eventWatcher(QObject * parent) :QObject(parent)

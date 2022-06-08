@@ -9,19 +9,19 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    eventwatcher.cpp \
-    gameinitial.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    startmenu.cpp \
-    stylizedbutton.cpp
+    sources/eventwatcher.cpp \
+    sources/gameinitial.cpp \
+    sources/main.cpp \
+    sources/mainwindow.cpp \
+    sources/startmenu.cpp \
+    sources/stylizedbutton.cpp
 
 HEADERS += \
-    eventwatcher.h \
-    gameinitial.h \
-    mainwindow.h \
-    startmenu.h \
-    stylizedbutton.h
+    headers/eventwatcher.h \
+    headers/gameinitial.h \
+    headers/mainwindow.h \
+    headers/startmenu.h \
+    headers/stylizedbutton.h
 
 FORMS +=
 

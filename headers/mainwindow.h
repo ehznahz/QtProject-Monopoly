@@ -13,7 +13,6 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
 
     //重写initPainter
     void initPainter(QPainter *)const;

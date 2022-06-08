@@ -1,5 +1,5 @@
-#include "startmenu.h"
-#include "stylizedbutton.h"
+#include "headers/startmenu.h"
+#include "headers/stylizedbutton.h"
 #include "QApplication"
 #include "QGraphicsBlurEffect"
 #include "QPainter"
