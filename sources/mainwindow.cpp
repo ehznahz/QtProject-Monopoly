@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 void MainWindow::initPainter(QPainter* painter)const{
         QMainWindow::initPainter(painter);
         //抗锯齿
-        painter->setRenderHint(QPainter::Antialiasing);
+        //painter->setRenderHint(QPainter::Antialiasing);
         painter->setRenderHint(QPainter::SmoothPixmapTransform);
 }
 

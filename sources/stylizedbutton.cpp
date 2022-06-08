@@ -33,7 +33,7 @@ stylizedButton::stylizedButton(QString text,int _width,int _height):QPushButton(
 }
 
 stylizedButton::stylizedButton(int _width,int _height, QString origImg, QString pressedImg, QString hoverImg,QString checkedImg){
-
+// TODO 处理图片按钮的 disabled 状态
     QPixmap *pix= new QPixmap(origImg);
     if(_width==-1)_width=pix->width();
     if(_height==-1)_height=pix->height();
@@ -81,7 +81,7 @@ stylizedButton::stylizedButton(int _width,int _height, QString origImg, QString 
     }
     else{
         QPropertyAnimation* ani=nullptr;
-        connect(this,&stylizedButton::toggled,[=,&ani](bool c){
+        connect(this,&stylizedButton::toggled,[=,&ani](bool c){// clazy:exclude=lambda-in-connect
             if(c) {
                 auto nef = new QGraphicsOpacityEffect(this);
                 this->setGraphicsEffect(nef);
