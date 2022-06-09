@@ -13,6 +13,7 @@ SOURCES += \
     sources/gameinitial.cpp \
     sources/main.cpp \
     sources/mainwindow.cpp \
+    sources/playersymbol.cpp \
     sources/startmenu.cpp \
     sources/stylizedbutton.cpp
 
@@ -20,6 +21,7 @@ HEADERS += \
     headers/eventwatcher.h \
     headers/gameinitial.h \
     headers/mainwindow.h \
+    headers/playersymbol.h \
     headers/startmenu.h \
     headers/stylizedbutton.h
 

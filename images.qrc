@@ -7,5 +7,10 @@
         <file>resources/image/icons/checked.png</file>
         <file>resources/image/background-noIcon.png</file>
         <file>resources/image/icons/dice.png</file>
+        <file>resources/image/icons/offline.png</file>
+        <file>resources/image/icons/online.png</file>
+        <file>resources/image/icons/human.png</file>
+        <file>resources/image/icons/robot.png</file>
+        <file>resources/image/icons/eyes.png</file>
     </qresource>
 </RCC>
