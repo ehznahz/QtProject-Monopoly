@@ -102,7 +102,7 @@ stylizedButton::stylizedButton(int _width,int _height, QString origImg, QString 
             }else {
                 if(ani!=nullptr)delete ani;
                 delete this->graphicsEffect();
-            };
+            }
         });
     }
 
