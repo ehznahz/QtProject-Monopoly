@@ -24,7 +24,7 @@ std::map<int,bool> availableColor = {
         {0xf8de8d,false},
         {0xc5aecf,false}
 };
-QString defaultName[6]={"Alice","Bob","Carol","Dave","Excited","Francis"};
+QString defaultName[6]={"Alice","Bob","Carol","Dave","Eve","Francis"};
 
 gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
     setFixedSize(1600, 900);
