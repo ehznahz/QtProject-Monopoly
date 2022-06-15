@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>resources/fonts/NotoSansSC-Bold.otf</file>
-        <file>resources/fonts/NotoSansSC-Regular.otf</file>
-    </qresource>
-</RCC>
