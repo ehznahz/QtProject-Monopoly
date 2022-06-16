@@ -12,5 +12,7 @@
         <file>resources/image/icons/human.png</file>
         <file>resources/image/icons/robot.png</file>
         <file>resources/image/icons/eyes.png</file>
+        <file>resources/image/icons/arrow-down.png</file>
+        <file>resources/image/icons/arrow-up.png</file>
     </qresource>
 </RCC>

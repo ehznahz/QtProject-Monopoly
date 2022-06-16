@@ -15,7 +15,8 @@ SOURCES += \
     sources/mainwindow.cpp \
     sources/playersymbol.cpp \
     sources/startmenu.cpp \
-    sources/stylizedbutton.cpp
+    sources/stylizedbutton.cpp \
+    sources/stylizedspinbox.cpp
 
 HEADERS += \
     headers/eventwatcher.h \
@@ -23,7 +24,8 @@ HEADERS += \
     headers/mainwindow.h \
     headers/playersymbol.h \
     headers/startmenu.h \
-    headers/stylizedbutton.h
+    headers/stylizedbutton.h \
+    headers/stylizedspinbox.h
 
 FORMS +=
 
