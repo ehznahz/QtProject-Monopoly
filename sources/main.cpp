@@ -6,12 +6,15 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+
     QFontDatabase::addApplicationFont("fonts/NotoSansSC-Regular.otf");
     QFontDatabase::addApplicationFont("fonts/NotoSansSC-Bold.otf");
     QFont font("Noto Sans SC",16,700);
     font.setHintingPreference(QFont::HintingPreference::PreferNoHinting);
     QApplication::setFont(font);
     MainWindow w;
+    qDebug()<<w.devicePixelRatio();
+    qDebug()<<w.devicePixelRatioFScale();
     w.show();
     return a.exec();
 }
