@@ -24,7 +24,10 @@ add_executable(QtProject-Monopoly
         headers/stylizedbutton.h
         #
         images.qrc
-        sources/playersymbol.cpp headers/playersymbol.h)
+        sources/playersymbol.cpp
+        headers/playersymbol.h
+        sources/stylizedspinbox.cpp
+        headers/stylizedspinbox.h)
 # 添加模块
 target_link_libraries(QtProject-Monopoly PRIVATE
         Qt6::Core

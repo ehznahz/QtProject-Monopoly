@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     QFontDatabase::addApplicationFont("fonts/NotoSansSC-Regular.otf");
     QFontDatabase::addApplicationFont("fonts/NotoSansSC-Bold.otf");
-    QFont font("Noto Sans SC",16,700);
+    QFont font("Noto Sans SC",16,500);
     font.setHintingPreference(QFont::HintingPreference::PreferNoHinting);
     QApplication::setFont(font);
     MainWindow w;
