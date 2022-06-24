@@ -1,5 +1,6 @@
 #include "headers/map.h"
 #include <cstdlib>
+#include <ctime>
 
 Map::Map() {
     //地图初始化
@@ -126,6 +127,10 @@ void Map::BuyOrNot(int __player, int __block) {
     //TODO
 }
 
+void Map::BankruptOrNot(int __player) {
+    //TODO
+}
+
 void Map::SellOrNot(int __player) {
     //TODO
 }
@@ -173,7 +178,10 @@ void Map::Build(int __player, int __block) {
 
 void Map::Game() {
     //TODO 游戏主体
-    for(; ; ) {
-
+    srand(time(0) + clock());
+    int __currentplayer = rand() % playernumber;
+    for(; ; ++__currentplayer) {
+        Roll(__currentplayer);
+        if(playernumber == 1) break;
     }
 }
