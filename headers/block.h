@@ -2,10 +2,12 @@
 #define BLOCK_H
 
 #include <string>
+#include "QPushButton"
 #include "headers/player.h"
 
-class Block
+class Block:public QAbstractButton
 {
+    Q_OBJECT
     std::string name;
     std::string action;
     std::string type;
@@ -15,8 +17,12 @@ class Block
     bool mortgaged;
     bool united;
     int house;
+    int direction;
+    int sizeType;
+    void paintEvent(QPaintEvent*)override;
+    const int RGBColor[9]={0x5a189a,0xf94144,0xF3722C,0xF8961E,0xF9C74F,0x90BE6D,0x43AA8B,0x4D908E,0x577590};
 public:
-    Block(std::string = "\0", std::string = "\0", std::string = "\0", int = -1, int = 0, int = 0, int = 0);
+    Block(std::string __name, std::string _action, std::string _type, int _color, int _price0, int _price1, int _price2, int _sizeType ,int direction);
     void Buy(int);
     void Mortgage();
     void Redeem();

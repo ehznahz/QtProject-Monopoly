@@ -13,6 +13,7 @@ SOURCES += \
     sources/eventwatcher.cpp \
     sources/gameinitial.cpp \
     sources/main.cpp \
+    sources/mainloop.cpp \
     sources/mainwindow.cpp \
     sources/playersymbol.cpp \
     sources/startmenu.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     headers/block.h \
     headers/eventwatcher.h \
     headers/gameinitial.h \
+    headers/mainloop.h \
     headers/mainwindow.h \
     headers/playersymbol.h \
     headers/startmenu.h \

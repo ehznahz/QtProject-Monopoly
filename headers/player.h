@@ -17,7 +17,7 @@ class Player
     int active;
     bool alive;
 public:
-    Player(int, QString = "\0", int = 0, double = 0.0, double = 0.0, double = 0.0, double = 0.0);
+    Player(int=0 , QString = "\0", int = 0, double = 0.0, double = 0.0, double = 0.0, double = 0.0);
     void Move(int);
     void Buy(int);
     void Earn(int);

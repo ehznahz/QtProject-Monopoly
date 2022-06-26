@@ -2,13 +2,14 @@
 #define MAP_H
 
 #include "headers/block.h"
-
-class Map
+class Map :public QWidget
 {
-    Block block[40];
-    Player player[6];
-    int playernumber;
+    Q_OBJECT
+    Block* block[40];
+    Player* player[6];
+    int playerNumber;
 public:
+    friend class mainloop;
     Map();
     void Move(int, int);
     void Roll(int);
@@ -23,7 +24,6 @@ public:
     void Redeem(int, int);
     void Build(int, int);
     void Sell(int, int);
-    void Game();
 };
 
 #endif

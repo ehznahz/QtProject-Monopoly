@@ -1,17 +1,27 @@
 #include "headers/block.h"
+#include "QPainter"
 
-Block::Block(std::string __name, std::string __action, std::string __type, int __color, int __price0, int __price1, int __price2) {
+Block::Block(std::string __name, std::string _action, std::string _type, int _color, int _price0, int _price1, int _price2, int _sizeType ,int _direction) {
     name = __name;
-    action = __action;
-    type = __type;
-    color = __color;
-    price[0] = __price0;
-    price[1] = __price1;
-    price[2] = __price2;
+    action = _action;
+    type = _type;
+    color = _color;
+    price[0] = _price0;
+    price[1] = _price1;
+    price[2] = _price2;
     owner = -1;
     mortgaged = false;
     united = false;
     house = 0;
+    sizeType=_sizeType;
+    if(sizeType){
+        if(_direction%2){
+            this->setFixedSize(106,72);
+        }
+        else this->setFixedSize(72,106);
+    }
+    else this->setFixedSize(106,106);
+    direction=_direction;
 }
 
 void Block::Buy(int __player) {
@@ -43,7 +53,8 @@ std::string Block::Type() const {
 }
 
 int Block::Color() const{
-    return color;
+    if(color==-1)return RGBColor[0];
+    return RGBColor[color];
 }
 
 int Block::Price0() const{
@@ -69,4 +80,14 @@ int Block::Owner() const {
 
 int Block::House() const{
     return house;
+}
+
+void Block::paintEvent(QPaintEvent *) {
+    //sizeType 0->四角 106*106 1->四边 106*72
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.setPen(QPen(QColor(0,0,0,0)));//设置画笔形式
+    painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));//设置画刷形式
+    painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),10,10);
 }

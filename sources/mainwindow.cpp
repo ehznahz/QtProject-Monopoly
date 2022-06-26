@@ -1,6 +1,9 @@
 #include "headers/mainwindow.h"
+
+#include <utility>
 #include "headers/gameinitial.h"
 #include "headers/startmenu.h"
+#include "headers/mainloop.h"
 #include "QApplication"
 #include "QPainter"
 #include "QPalette"
@@ -23,6 +26,16 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
     connect(newMenu,&startMenu::beginClicked,this,[=](){
         newMenu->hide();
         initMenu->show();
+        //游戏mainloop
+    });
+
+    mainloop* mainLoop = new mainloop(this);
+    mainLoop->hide();
+
+    connect(initMenu,&gameInitial::gameStarted,[=](QList<Player *> _player, int playerCount, int initMoney, int roundLimit, bool pointEnabled){
+        initMenu->hide();
+        mainLoop->reset(std::move(_player),playerCount,roundLimit,pointEnabled);
+        mainLoop->show();
     });
 
 }

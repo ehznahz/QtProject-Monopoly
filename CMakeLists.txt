@@ -30,6 +30,12 @@ add_executable(QtProject-Monopoly
         headers/stylizedspinbox.h
         sources/player.cpp
         headers/player.h
+        sources/mainloop.cpp
+        headers/mainloop.h
+        headers/block.h
+        sources/block.cpp
+        headers/map.h
+        sources/map.cpp
         )
 # 添加模块
 target_link_libraries(QtProject-Monopoly PRIVATE
