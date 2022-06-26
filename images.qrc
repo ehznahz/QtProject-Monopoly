@@ -14,5 +14,7 @@
         <file>resources/image/icons/eyes.png</file>
         <file>resources/image/icons/arrow-down.png</file>
         <file>resources/image/icons/arrow-up.png</file>
+        <file>resources/image/icons/unchecked.png</file>
+        <file>resources/image/icons/start.png</file>
     </qresource>
 </RCC>

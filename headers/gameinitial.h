@@ -3,6 +3,7 @@
 
 #include "QWidget"
 #include "QFrame"
+#include "headers/player.h"
 
 class gameInitial : public QWidget
 {
@@ -18,7 +19,7 @@ public:
 
 
 signals:
-
+    void gameStarted(QList<Player *> _player, int playerCount, int initMoney, int roundLimit, bool pointEnabled);
 };
 
 #endif // GAMEINITIAL_H

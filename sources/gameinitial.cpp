@@ -9,6 +9,7 @@
 #include "headers/stylizedbutton.h"
 #include "map"
 #include "headers/stylizedspinbox.h"
+#include "headers/player.h"
 
 std::map<int, bool> availableColor = {
         {0x9a2b2e, false},
@@ -29,33 +30,12 @@ QString defaultName[6] = {"Alice", "Bob", "Carol", "Dave", "Eve", "Francis"};
 
 gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
     setFixedSize(1600, 900);
-    {//模式切换按钮
-        QFrame *container = new QFrame(this);
-        container->setGeometry(340, 80, 180, 760);
-        container->setStyleSheet("QFrame{background-color:rgba(255,255,255,60);"
-                                 "border-radius:10}");
-
-        stylizedButton *modeBtn = new stylizedButton(160, 160, ":/resources/image/icons/offline.png", "", "", ":/resources/image/icons/online.png");
-        modeBtn->setParent(container);
-        modeBtn->move(10, 20);
-        modeBtn->setCheckable(true);
-
-        QLabel *textMode = new QLabel("本地模式", container);
-        textMode->setGeometry(0, 174, 180, 60);
-        textMode->setAlignment(Qt::AlignCenter);
-        textMode->setFont(QFont("Noto Sans SC", 22, 700));
-        textMode->setStyleSheet("QLabel{color:white;background-color:rgba(0,0,0,0)}");
-
-        connect(modeBtn, &stylizedButton::toggled, this, [=](bool) {
-            if (modeBtn->isChecked()) {
-                switchView(1);
-                textMode->setText("联机模式");
-            } else {
-                switchView(0);
-                textMode->setText("本地模式");
-            }
-        });
-    }
+    playerSymbol* pSymbol[6];
+    QLineEdit *nameInput[6];
+    stylizedspinbox *playerCount = new stylizedspinbox();
+    stylizedspinbox *initMoney = new stylizedspinbox();
+    stylizedspinbox *roundLimit = new stylizedspinbox();
+    stylizedButton *pointButton = new stylizedButton(28,28,":/resources/image/icons/unchecked.png","","",":/resources/image/icons/checked.png");
     {
         offlineView = new QFrame(this);
         offlineView->setGeometry(540, 80, 900, 760);
@@ -91,7 +71,6 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
             leftLayout->setSpacing(18);
             leftLayout->addWidget(leftText, 0, 0, 1, 2);
             stylizedButton *playerSelect[6][2];
-            QLineEdit *nameInput[6];
             auto nowColor = availableColor.begin();
             for (int i = 0; i < 6; ++i) {
                 playerView[i] = new QFrame();
@@ -112,22 +91,22 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                                             "border-style: solid;"
                                             "border-color:rgba(255,255,255,50);"
                                             "padding-left:4px");
-                playerSymbol *p = new playerSymbol(nowColor->first, 0, 90, 90);
+                pSymbol[i] = new playerSymbol(nowColor->first, 0, 90, 90);
                 nowColor->second = true;
                 nowColor++;
                 if (nowColor == availableColor.end()) nowColor = availableColor.begin();
-                p->setParent(playerView[i]);
-                p->move(80, 50);
-                connect(p, &playerSymbol::clicked, [=](bool) {
-                    availableColor[p->getColor()] = false;
-                    auto switchColor = availableColor.find(p->getColor());
+                pSymbol[i]->setParent(playerView[i]);
+                pSymbol[i]->move(80, 50);
+                connect(pSymbol[i], &playerSymbol::clicked, [=](bool) {
+                    availableColor[pSymbol[i]->getColor()] = false;
+                    auto switchColor = availableColor.find(pSymbol[i]->getColor());
                     switchColor++;
                     if (switchColor == availableColor.end()) switchColor = availableColor.begin();
                     while (switchColor->second) {
                         switchColor++;
                         if (switchColor == availableColor.end()) switchColor = availableColor.begin();
                     }
-                    p->setColor(switchColor->first);
+                    pSymbol[i]->setColor(switchColor->first);
                     switchColor->second = true;
                 });
             }
@@ -135,6 +114,8 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
         //右侧
         {
             QGridLayout *rightLayout = new QGridLayout;
+            rightLayout->setAlignment(Qt::AlignCenter);
+            rightLayout->setSpacing(20);
             rightFrame->setLayout(rightLayout);
             rightLayout->setContentsMargins(30,0,30,0);
             QLabel *rightTitle = new QLabel("游戏设置");
@@ -147,7 +128,6 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
             {
                 auto tableCount = new QLabel("游戏人数");
                 rightLayout->addWidget(tableCount, 1, 0, 1, 1);
-                stylizedspinbox *playerCount = new stylizedspinbox();
                 playerCount->setValue(6);
                 rightLayout->addWidget(playerCount, 1, 1, 1, 1);
                 playerCount->setRange(2, 6);
@@ -173,18 +153,76 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
             {
                 auto tableMoney = new QLabel("初始金钱");
                 rightLayout->addWidget(tableMoney, 2, 0, 1, 1);
-                stylizedspinbox *playerCount = new stylizedspinbox();
-                playerCount->setValue(1500);
-                playerCount->setSingleStep(100);
-                rightLayout->addWidget(playerCount, 2, 1, 1, 1);
-                playerCount->setRange(1000, 10000);
-                playerCount->setFixedSize(120, 40);
+                initMoney->setValue(1500);
+                initMoney->setSingleStep(100);
+                rightLayout->addWidget(initMoney, 2, 1, 1, 1);
+                initMoney->setRange(1000, 3200);
+                initMoney->setFixedSize(120, 40);
             }
-
             {
-
+                auto tableMode = new QLabel("局数限制");
+                rightLayout->addWidget(tableMode, 3, 0, 1, 1);
+                rightLayout->addWidget(roundLimit, 3, 1, 1, 1);
+                roundLimit->setRange(25, 80);
+                roundLimit->setFixedSize(120, 40);
+                roundLimit->setSingleStep(5);
+                roundLimit->setSpecialValueText("无限");
+            }
+            {
+                auto tablePoint = new QLabel("点数系统");
+                rightLayout->addWidget(tablePoint,4,0,1,1);
+                pointButton->setCheckable(true);
+                rightLayout->addWidget(pointButton,4,1,1,1,Qt::AlignCenter);
             }
         }
+    }
+    {//模式切换按钮
+        QFrame *container = new QFrame(this);
+        container->setGeometry(340, 80, 180, 760);
+        container->setStyleSheet("QFrame{background-color:rgba(255,255,255,60);"
+                                 "border-radius:10}");
+
+        stylizedButton *modeBtn = new stylizedButton(160, 160, ":/resources/image/icons/offline.png", "", "", ":/resources/image/icons/online.png");
+        modeBtn->setParent(container);
+        modeBtn->move(10, 20);
+        modeBtn->setCheckable(true);
+
+        QLabel *textMode = new QLabel("本地模式", container);
+        textMode->setGeometry(0, 174, 180, 60);
+        textMode->setAlignment(Qt::AlignCenter);
+        textMode->setFont(QFont("Noto Sans SC", 22, 700));
+        textMode->setStyleSheet("QLabel{color:white;background-color:rgba(0,0,0,0)}");
+
+        connect(modeBtn, &stylizedButton::toggled, this, [=](bool) {
+            if (modeBtn->isChecked()) {
+                switchView(1);
+                textMode->setText("联机模式");
+            } else {
+                switchView(0);
+                textMode->setText("本地模式");
+            }
+        });
+
+        stylizedButton* startButton = new stylizedButton(160,160,":/resources/image/icons/start.png","","","");
+        startButton->setParent(container);
+        startButton->move(10,550);
+
+        QLabel *textStart = new QLabel("开始", container);
+        textStart->setGeometry(0, 690, 180, 60);
+        textStart->setAlignment(Qt::AlignCenter);
+        textStart->setFont(QFont("Noto Sans SC", 22, 700));
+        textStart->setStyleSheet("QLabel{color:white;background-color:rgba(0,0,0,0)}");
+
+        connect(startButton,&stylizedButton::clicked,this,[=](bool){
+            int playCnt=playerCount->value();
+            QList<Player *> players;
+            for (int i = 0; i < playCnt; ++i) {
+                Player* p = new Player(pSymbol[i]->getColor(),nameInput[i]->text(),initMoney->value(),0.0,0.0,0.0,0.0);
+                players.push_back(p);
+            }
+            //TODO 初始属性
+            emit gameStarted(players,playCnt,initMoney->value(),(roundLimit->value()==25)?0:roundLimit->value(),pointButton->isChecked());
+        });
     }
     {
         onlineView = new QFrame(this);

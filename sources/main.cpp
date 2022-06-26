@@ -13,8 +13,6 @@ int main(int argc, char *argv[])
     font.setHintingPreference(QFont::HintingPreference::PreferNoHinting);
     QApplication::setFont(font);
     MainWindow w;
-    qDebug()<<w.devicePixelRatio();
-    qDebug()<<w.devicePixelRatioFScale();
     w.show();
     return a.exec();
 }

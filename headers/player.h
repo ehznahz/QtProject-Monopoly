@@ -2,10 +2,11 @@
 #define PLAYER_H
 
 #include <string>
-
+#include "QObject"
+#include "headers/playersymbol.h"
 class Player
 {
-    std::string name;
+    QString name;
     double lucky_rate;
     double escape_rate;
     double rent_rate;
@@ -16,7 +17,7 @@ class Player
     int active;
     bool alive;
 public:
-    Player(std::string = "\0", int = 0, double = 0, double = 0, double = 0, double = 0);
+    Player(int, QString = "\0", int = 0, double = 0.0, double = 0.0, double = 0.0, double = 0.0);
     void Move(int);
     void Buy(int);
     void Earn(int);
@@ -30,5 +31,6 @@ public:
     int Location() const;
     bool Active() const;
     bool Alive() const;
+    playerSymbol symbol;
 };
 #endif
