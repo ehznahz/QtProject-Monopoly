@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
     mainloop* mainLoop = new mainloop(this);
     mainLoop->hide();
 
-    connect(initMenu,&gameInitial::gameStarted,this,[=](QList<Player *> _player, int playerCount, int initMoney, int roundLimit, bool pointEnabled){
+    connect(initMenu,&gameInitial::gameStarted,this,[=](QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled){
         initMenu->hide();
         mainLoop->reset(std::move(_player),playerCount,roundLimit,pointEnabled);
         mainLoop->show();

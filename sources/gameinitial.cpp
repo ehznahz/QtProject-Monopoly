@@ -260,10 +260,10 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                     gridLayout->addWidget(new QLabel("收入"), 4, 0, 1, 1);
                     auto spinRent = new stylizedspinbox(0, 3);
                     gridLayout->addWidget(spinRent, 4, 1, 1, 1);
-                    auto tips = new QLabel("每个玩家具有15点的初始点数，每个属性的1-3等级分别消耗1、3、6点数，级别越高属性越强。");
+                    auto tips = new QLabel("每个玩家具有10点的初始点数，每个属性的1-3等级分别消耗1、3、6点数，级别越高属性越强。");
                     tips->setFont(QFont("Noto Sans SC", 10, 700));
                     gridLayout->addWidget(tips, 5, 0, 1, 2);
-                    auto warning = new QLabel("总需要的点数不能高于15。");
+                    auto warning = new QLabel("总需要的点数不能高于10。");
                     warning->setFont(QFont("Noto Sans SC", 10, 700));
                     warning->setStyleSheet("color:red");
                     gridLayout->addWidget(warning, 6, 0, 1, 2);
@@ -272,7 +272,7 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                     gridLayout->addWidget(nextBtn, 7, 0, 1, 2, Qt::AlignCenter);
                     QEventLoop *loop = new QEventLoop;
                     connect(nextBtn, &stylizedButton::pressed, this, [=,&flag]() {
-                        if (points[spinLucky->value()]+points[spinEscape->value()]+points[spinBuild->value()]+points[spinRent->value()]>15){
+                        if (points[spinLucky->value()]+points[spinEscape->value()]+points[spinBuild->value()]+points[spinRent->value()]>10){
                             if(!flag){
                                 warning->setVisible(true);
                             }
@@ -290,7 +290,7 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                     loop->exec();
                 }
             }
-            emit gameStarted(players, playCnt, initMoney->value(), (roundLimit->value() == 25) ? 0 : roundLimit->value(), pointButton->isChecked());
+            emit gameStarted(players, playCnt, (roundLimit->value() == 25) ? 0 : roundLimit->value(), pointButton->isChecked());
         });
     }
     {

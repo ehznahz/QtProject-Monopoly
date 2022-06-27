@@ -8,6 +8,7 @@ class Map : public QWidget
     Block* block[40];
     Player* player[6];
     int playerNumber;
+
 public:
     friend class mainloop;
     Map();
@@ -19,6 +20,10 @@ public:
     void Redeem(int, int);
     void Build(int, int);
     void Sell(int, int);
+
+signals:
+    void BuyOrNot(int, int);
+    void BankruptOrNot(int, int);
 };
 
 #endif
