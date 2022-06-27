@@ -71,3 +71,18 @@ bool Player::Active() const {
 bool Player::Alive() const {
     return alive;
 }
+const QString &Player::getName() const {
+    return name;
+}
+void Player::setLuckyRate(double luckyRate) {
+    lucky_rate = luckyRate;
+}
+void Player::setEscapeRate(double escapeRate) {
+    escape_rate = escapeRate;
+}
+void Player::setRentRate(double rentRate) {
+    rent_rate = rentRate;
+}
+void Player::setBuildRate(double buildRate) {
+    build_rate = buildRate;
+}

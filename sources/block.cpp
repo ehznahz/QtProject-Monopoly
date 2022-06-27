@@ -95,7 +95,7 @@ void Block::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.setPen(QPen(QColor(0,0,0,0)));//设置画笔形式
-    painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));//设置画刷形式
+    //painter.setPen(QPen(QColor(0,0,0,0)));
+    painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
     painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),10,10);
 }

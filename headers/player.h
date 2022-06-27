@@ -4,11 +4,19 @@
 #include <string>
 #include "QObject"
 #include "headers/playersymbol.h"
-class Player : QObject
+class Player : public QObject
 {
     Q_OBJECT
     QString name;
     double lucky_rate;
+
+public:
+    void setLuckyRate(double luckyRate);
+    void setEscapeRate(double escapeRate);
+    void setRentRate(double rentRate);
+    void setBuildRate(double buildRate);
+
+private:
     double escape_rate;
     double rent_rate;
     double build_rate;
@@ -34,5 +42,6 @@ public:
     bool Active() const;
     bool Alive() const;
     playerSymbol symbol;
+    const QString &getName() const;
 };
 #endif

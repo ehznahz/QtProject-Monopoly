@@ -7,6 +7,7 @@ class stylizedspinbox : public QSpinBox
     Q_OBJECT
 public:
     stylizedspinbox();
+    stylizedspinbox(int a,int b);
 };
 
 
