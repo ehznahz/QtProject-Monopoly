@@ -2,7 +2,7 @@
 #define MAP_H
 
 #include "headers/block.h"
-class Map :public QWidget
+class Map : public QWidget
 {
     Q_OBJECT
     Block* block[40];
@@ -12,7 +12,6 @@ public:
     friend class mainloop;
     Map();
     void Move(int, int);
-    void Roll(int);
     void Update();
     void BuyOrNot(int, int);
     void BankruptOrNot(int);

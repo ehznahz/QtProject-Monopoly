@@ -217,7 +217,7 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
             int playCnt=playerCount->value();
             QList<Player *> players;
             for (int i = 0; i < playCnt; ++i) {
-                Player* p = new Player(pSymbol[i]->getColor(),nameInput[i]->text(),initMoney->value(),0.0,0.0,0.0,0.0);
+                Player* p = new Player(pSymbol[i]->getColor(),nameInput[i]->text(),initMoney->value(),1.0,1.0,1.0,1.0);
                 players.push_back(p);
             }
             //TODO 初始属性

@@ -29,3 +29,31 @@ void mainloop::paintEvent(QPaintEvent *) {
     QPixmap bk("://resources/image/background-noIcon.png");
     painter.drawPixmap(0, 0, this->width(), this->height(), bk);
 }
+
+void mainloop::gamestart() {
+    //TODO 置出同点数的尴尬情况
+    int current = 0;
+    {
+        bool winner[6] = {1, 1, 1, 1, 1, 1};
+        int weight[6] = {0, 0, 0, 0, 0, 0};
+        for(int existplayer = map.playerNumber; existplayer > 1; ) {
+            int maxnum = 0;
+            for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) {
+                int key = map.player[i]->Roll();
+                weight[i] = key / 10 + key % 10;
+                if(weight[i] > maxnum) maxnum = weight[i];
+            }
+            for(int i = 0; i < map.playerNumber; ++i) if(winner[i] && weight[i] < maxnum) {
+                winner[i] = 0;
+                --existplayer;
+            }
+        }
+        for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) current = i;
+    }
+    for(; ; current = (current + 1) % map.playerNumber) {
+        if(!map.player[current]->Alive()) continue;
+        int key = map.player[current]->Roll();
+        int px = key / 10, py = key % 10;
+        map.Move(current, px + py);
+    }
+}

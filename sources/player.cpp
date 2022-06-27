@@ -1,6 +1,6 @@
 #include "headers/player.h"
 
-Player::Player(int __color,QString __name, int __money, double __lucky_rate, double __escape_rate, double __rent_rate, double __build_rate): symbol(__color,0,45,45){
+Player::Player(int __color, QString __name, int __money, double __lucky_rate, double __escape_rate, double __rent_rate, double __build_rate): symbol(__color,0,45,45){
     name = __name;
     lucky_rate = __lucky_rate;
     escape_rate = __escape_rate;
@@ -9,7 +9,13 @@ Player::Player(int __color,QString __name, int __money, double __lucky_rate, dou
     money = __money;
     location = 0;
     for(int i = 0; i < 40; i++) get[i] = false;
+    active = 0;
     alive = true;
+}
+
+int Player::Roll() {
+    int px = rand() % 6 + 1, py = rand() % 6 + 1;
+    return px * 10 + py;
 }
 
 void Player::Move(int __step) {

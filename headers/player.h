@@ -4,8 +4,9 @@
 #include <string>
 #include "QObject"
 #include "headers/playersymbol.h"
-class Player
+class Player : QObject
 {
+    Q_OBJECT
     QString name;
     double lucky_rate;
     double escape_rate;
@@ -17,7 +18,8 @@ class Player
     int active;
     bool alive;
 public:
-    Player(int=0 , QString = "\0", int = 0, double = 0.0, double = 0.0, double = 0.0, double = 0.0);
+    Player(int, QString, int, double, double, double, double);
+    int Roll();
     void Move(int);
     void Buy(int);
     void Earn(int);

@@ -1,7 +1,7 @@
 #include "headers/block.h"
 #include "QPainter"
 
-Block::Block(std::string __name, std::string _action, std::string _type, int _color, int _price0, int _price1, int _price2, int _sizeType ,int _direction) {
+Block::Block(QString __name, QString _action, QString _type, int _color, int _price0, int _price1, int _price2, int _sizeType ,int _direction) {
     name = __name;
     action = _action;
     type = _type;
@@ -13,7 +13,7 @@ Block::Block(std::string __name, std::string _action, std::string _type, int _co
     mortgaged = false;
     united = false;
     house = 0;
-    sizeType=_sizeType;
+    sizeType = _sizeType;
     if(sizeType){
         if(_direction%2){
             this->setFixedSize(106,72);
@@ -21,7 +21,7 @@ Block::Block(std::string __name, std::string _action, std::string _type, int _co
         else this->setFixedSize(72,106);
     }
     else this->setFixedSize(106,106);
-    direction=_direction;
+    direction = _direction;
 }
 
 void Block::Buy(int __player) {
@@ -44,16 +44,16 @@ void Block::Sell() {
     --house;
 }
 
-void Block::ChangeUnited(bool __united) {
-    united = __united;
+void Block::ChangeUnited() {
+    united ^= 1;
 }
 
-std::string Block::Type() const {
+QString Block::Type() const {
     return type;
 }
 
 int Block::Color() const{
-    if(color==-1)return RGBColor[0];
+    if(color == -1) return RGBColor[0];
     return RGBColor[color];
 }
 
@@ -76,6 +76,14 @@ int Block::Price2() const {
 
 int Block::Owner() const {
     return owner;
+}
+
+bool Block::Mortgaged() const{
+    return mortgaged;
+}
+
+bool Block::United() const{
+    return united;
 }
 
 int Block::House() const{

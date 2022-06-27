@@ -118,18 +118,13 @@ void Map::Move(int __player, int __step) {
     }
 }
 
-void Map::Roll(int __player) {
-    int px = rand() % 6 + 1, py = rand() % 6 + 1;
-    Move(__player, px + py);
-}
-
 void Map::Update() {
     for (int i = 0; i < 40; ++i)
         if (block[i]->Color() > 0 && block[i]->Owner() > 0) {
             bool flag = true;
             for (int j = 0; j < 40; ++j)
                 if (block[i]->Color() == block[j]->Color() && block[i]->Owner() != block[j]->Owner()) flag = false;
-            block[i]->ChangeUnited(flag);
+            if(block[i]->United() != flag) block[i]->ChangeUnited();
         }
 }
 

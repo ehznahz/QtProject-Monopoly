@@ -2,7 +2,8 @@
 #define STYLIZEDSPINBOX_H
 #include "QSpinBox"
 
-class stylizedspinbox : public QSpinBox{
+class stylizedspinbox : public QSpinBox
+{
     Q_OBJECT
 public:
     stylizedspinbox();
