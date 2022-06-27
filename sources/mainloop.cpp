@@ -31,7 +31,6 @@ void mainloop::paintEvent(QPaintEvent *) {
 }
 
 void mainloop::gamestart() {
-    //TODO 置出同点数的尴尬情况
     int current = 0;
     {
         bool winner[6] = {1, 1, 1, 1, 1, 1};

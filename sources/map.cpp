@@ -128,22 +128,6 @@ void Map::Update() {
         }
 }
 
-void Map::BuyOrNot(int __player, int __block) {
-    //TODO
-}
-
-void Map::BankruptOrNot(int __player) {
-    //TODO
-}
-
-void Map::SellOrNot(int __player) {
-    //TODO
-}
-
-void Map::Trade(int __player1, int __player2) {
-    //TODO
-}
-
 void Map::Bankrupt(int __player1, int __player2) {
     for (int i = 0; i < 40; ++i)
         if (block[i]->Owner() == __player1) {

@@ -13,10 +13,6 @@ public:
     Map();
     void Move(int, int);
     void Update();
-    void BuyOrNot(int, int);
-    void BankruptOrNot(int);
-    void SellOrNot(int);
-    void Trade(int, int);
     void Bankrupt(int, int);
     void Buy(int, int);
     void Mortgage(int, int);
