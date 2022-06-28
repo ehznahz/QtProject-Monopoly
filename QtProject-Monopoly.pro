@@ -20,7 +20,8 @@ SOURCES += \
     sources/stylizedbutton.cpp \
     sources/stylizedspinbox.cpp \
     sources/map.cpp \
-    sources/player.cpp
+    sources/player.cpp \
+    sources/bot.cpp
 
 HEADERS += \
     headers/block.h \
@@ -33,8 +34,8 @@ HEADERS += \
     headers/stylizedbutton.h \
     headers/stylizedspinbox.h \
     headers/map.h \
-    headers/player.h
-
+    headers/player.h \
+    headers/bot.h
 
 FORMS +=
 
