@@ -10,47 +10,46 @@ Map::Map() {
     this->setAutoFillBackground(true);
     //FIXME 透明属性
     //地图初始化
-    //TODO 地图填写
-    block[0] = new Block("   GO!   \n         ", "Pass Go! \nGet $200 ", "START", -1, 0, 0, 0, 0, 0);
-    block[1] = new Block("A", "         \n   $60   ", "Property", 1, 60, 50, 2, 1, 0);
-    block[2] = new Block("Community\n  Chest  ", "         \n         ", "Community Chest", -1, 0, 0, 0, 1, 0);
-    block[3] = new Block("         \n         ", "         \n   $60   ", "Property", 1, 60, 50, 4, 1, 0);
-    block[4] = new Block("         \n         ", "         \nPay $200 ", "Tax", -1, 0, 0, 200, 1, 0);
-    block[5] = new Block("         \n         ", "         \n  $200   ", "Railroad", -1, 200, 0, 0, 1, 0);
-    block[6] = new Block("        \n         ", "         \n  $100   ", "Property", 2, 100, 50, 6, 1, 0);
-    block[7] = new Block("         \n         ", "         \n         ", "Chance", -1, 0, 0, 0, 1, 0);
-    block[8] = new Block("         \n         ", "         \n  $100   ", "Property", 2, 60, 50, 6, 1, 0);
-    block[9] = new Block("         \n         ", "         \n  $120   ", "Property", 2, 60, 50, 8, 1, 0);
-    block[10] = new Block("         \n         ", "   Just  \nVisiting ", "Jail", -1, 0, 0, 0, 0, 0);
-    block[11] = new Block("         \n         ", "         \n  $140   ", "Property", 3, 140, 100, 10, 1, 1);
-    block[12] = new Block("         \n         ", "         \n  $150   ", "Utility", -1, 150, 0, 0, 1, 1);
-    block[13] = new Block("         \n         ", "         \n  $140   ", "Property", 3, 140, 100, 10, 1, 1);
-    block[14] = new Block("         \n         ", "         \n  $160   ", "Property", 3, 160, 100, 12, 1, 1);
-    block[15] = new Block("         \n         ", "         \n  $200   ", "Railroad", -1, 200, 0, 0, 1, 1);
-    block[16] = new Block("         \n         ", "         \n  $180   ", "Property", 4, 180, 100, 14, 1, 1);
-    block[17] = new Block("Community\n  Chest  ", "         \n         ", "Community Chest", -1, 0, 0, 0, 1, 1);
-    block[18] = new Block("         \n         ", "         \n  $180   ", "Property", 4, 180, 100, 14, 1, 1);
-    block[19] = new Block("         \n         ", "         \n  $200   ", "Property", 4, 200, 100, 16, 1, 1);
-    block[20] = new Block("         \n         ", "   Just  \nVisiting ", "Free Parking", -1, 0, 0, 0, 0, 2);
-    block[21] = new Block("         \n         ", "         \n  $220   ", "Property", 5, 220, 150, 18, 1, 2);
-    block[22] = new Block(" Chance  \n         ", "         \n         ", "Chance", -1, 0, 0, 0, 1, 2);
-    block[23] = new Block("         \n         ", "         \n  $220   ", "Property", 5, 220, 150, 18, 1, 2);
-    block[24] = new Block("         \n         ", "         \n  $240   ", "Property", 5, 240, 150, 20, 1, 2);
-    block[25] = new Block("         \n         ", "         \n  $200   ", "Railroad", -1, 200, 0, 0, 1, 2);
-    block[26] = new Block("         \n         ", "         \n  $260   ", "Property", 6, 260, 150, 22, 1, 2);
-    block[27] = new Block("         \n         ", "         \n  $260   ", "Property", 6, 260, 150, 22, 1, 2);
-    block[28] = new Block("         \n         ", "         \n         ", "Utility", -1, 0, 0, 0, 1, 2);
-    block[29] = new Block("         \n         ", "         \n  $280   ", "Property", 6, 280, 150, 22, 1, 2);
-    block[30] = new Block("         \n         ", "         \n         ", "Go To Jail", -1, 0, 0, 0, 0, 2);
-    block[31] = new Block("         \n         ", "         \n  $300   ", "Property", 7, 300, 200, 26, 1, 3);
-    block[32] = new Block("         \n         ", "         \n  $300   ", "Property", 7, 300, 200, 26, 1, 3);
-    block[33] = new Block("Community\n  Chest  ", "         \n         ", "Community Chest", -1, 0, 0, 0, 1, 3);
-    block[34] = new Block("         \n         ", "         \n  $320   ", "Property", 7, 320, 200, 28, 1, 3);
-    block[35] = new Block("         \n         ", "         \n  $200   ", "Railroad", -1, 200, 0, 0, 1, 3);
-    block[36] = new Block(" Chance  \n         ", "         \n         ", "Chance", -1, 0, 0, 0, 1, 3);
-    block[37] = new Block("         \n         ", "         \n  $350   ", "Property", 8, 350, 200, 35, 1, 3);
-    block[38] = new Block("         \n         ", "         \nPay $100 ", "Tax", -1, 0, 0, 100, 1, 3);
-    block[39] = new Block("         \n         ", "         \n  $400   ", "Property", 8, 400, 200, 50, 1, 3);
+    block[0] = new Block("出发!", "停留于起点，多获得 $200", "START", -1, 0, 0, 0, 0, 0);
+    block[1] = new Block("朗润园", "地价 $60", "Property", 1, 60, 50, 2, 1, 0);
+    block[2] = new Block("宝箱", "", "Community Chest", -1, 0, 0, 0, 1, 0);
+    block[3] = new Block("承泽园", "地价 $60", "Property", 1, 60, 50, 4, 1, 0);
+    block[4] = new Block("动力中心", "缴纳电费 $200", "Tax", -1, 0, 0, 200, 1, 0);
+    block[5] = new Block("北京大学东门站", "地价 $200", "Railroad", -1, 200, 0, 0, 1, 0);
+    block[6] = new Block("李兆基人文学苑", "地价 $100", "Property", 2, 100, 50, 6, 1, 0);
+    block[7] = new Block("机遇", "", "Chance", -1, 0, 0, 0, 1, 0);
+    block[8] = new Block("廖凯原楼", "地价 $100", "Property", 2, 60, 50, 6, 1, 0);
+    block[9] = new Block("李兆基楼", " 地价 $120", "Property", 2, 60, 50, 8, 1, 0);
+    block[10] = new Block("小黑屋", "仅仅是参观", "Jail", -1, 0, 0, 0, 0, 0);
+    block[11] = new Block("逸夫楼", "地价 $140", "Property", 3, 140, 100, 10, 1, 1);
+    block[12] = new Block("新太阳学生中心", "地价 $150", "Utility", -1, 150, 0, 0, 1, 1);
+    block[13] = new Block("臭名昭著45乙", "地价 $140", "Property", 3, 140, 100, 10, 1, 1);
+    block[14] = new Block("金碧辉煌35楼", "地价 $160", "Property", 3, 160, 100, 12, 1, 1);
+    block[15] = new Block("人民大学站", " 地价 $200", "Railroad", -1, 200, 0, 0, 1, 1);
+    block[16] = new Block("平平无奇28楼", "地价 $180", "Property", 4, 180, 100, 14, 1, 1);
+    block[17] = new Block("宝箱", "", "Community Chest", -1, 0, 0, 0, 1, 1);
+    block[18] = new Block("静园", "地价 $180", "Property", 4, 180, 100, 14, 1, 1);
+    block[19] = new Block("理科一号楼", "地价 $200", "Property", 4, 200, 100, 16, 1, 1);
+    block[20] = new Block("度假", "无事发生", "Free Parking", -1, 0, 0, 0, 0, 2);
+    block[21] = new Block("理科二号楼", "地价 $220", "Property", 5, 220, 150, 18, 1, 2);
+    block[22] = new Block("机遇", "", "Chance", -1, 0, 0, 0, 1, 2);
+    block[23] = new Block("理科三号楼", "地价 $220", "Property", 5, 220, 150, 18, 1, 2);
+    block[24] = new Block("百周年纪念讲堂", "地价 $240", "Property", 5, 240, 150, 20, 1, 2);
+    block[25] = new Block("海淀黄庄站", "地价 $200", "Railroad", -1, 200, 0, 0, 1, 2);
+    block[26] = new Block("微纳电子大厦", "地价 $260", "Property", 6, 260, 150, 22, 1, 2);
+    block[27] = new Block("王克桢楼", "地价 $260", "Property", 6, 260, 150, 22, 1, 2);
+    block[28] = new Block("近邻宝", "地价 $150", "Utility", -1, 0, 0, 0, 1, 2);
+    block[29] = new Block("圆明园校区", "地价 $280", "Property", 6, 280, 150, 22, 1, 2);
+    block[30] = new Block("树洞禁言", "不经过起点，直接进小黑屋", "Go To Jail", -1, 0, 0, 0, 0, 2);
+    block[31] = new Block("五四体育场", "地价 $300", "Property", 7, 300, 200, 26, 1, 3);
+    block[32] = new Block("未名湖", "地价 $300", "Property", 7, 300, 200, 26, 1, 3);
+    block[33] = new Block("宝箱", "", "Community Chest", -1, 0, 0, 0, 1, 3);
+    block[34] = new Block("博雅塔", "地价 $320", "Property", 7, 320, 200, 28, 1, 3);
+    block[35] = new Block("圆明园站", "地价 $200", "Railroad", -1, 200, 0, 0, 1, 3);
+    block[36] = new Block("机遇", "", "Chance", -1, 0, 0, 0, 1, 3);
+    block[37] = new Block("第一体育馆", "地价 $350", "Property", 8, 350, 200, 35, 1, 3);
+    block[38] = new Block("餐饮中心","缴纳伙食费 $100 ", "Tax", -1, 0, 0, 100, 1, 3);
+    block[39] = new Block("第二体育馆", "地价 $400", "Property", 8, 400, 200, 50, 1, 3);
     QGridLayout *layout = new QGridLayout;
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -94,7 +93,7 @@ void Map::Move(int __player, int __step) {
         }
     } else if (block[loc]->Type() == "Railroad") {
         if (block[loc]->Owner() == -1) {
-            Map::BuyOrNot(__player, loc);
+            emit BuyOrNot(__player, loc);
             if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             int cost = 25;
