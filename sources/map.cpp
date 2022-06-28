@@ -1,6 +1,7 @@
 #include "headers/map.h"
 #include "QGridLayout"
 #include "QPalette"
+#include "headers/cardview.h"
 
 Map::Map() {
     this->setFixedSize(860, 860);
@@ -56,21 +57,34 @@ Map::Map() {
     this->setLayout(layout);
     for (int i = 0; i <= 9; ++i) {
         layout->addWidget(block[i], 0, i, 1, 1);
+        block[i]->setLayout(new CardLayout(13,0));
+        block[i]->layout()->setContentsMargins(0,0,0,0);
     }
     for (int i = 0; i <= 9; ++i) {
         layout->addWidget(block[10 + i], i, 10, 1, 1);
+        block[10 + i]->setLayout(new CardLayout(13,1));
+        block[10+i]->layout()->setContentsMargins(0,0,0,0);
     }
     for (int i = 0; i <= 9; ++i) {
         layout->addWidget(block[20 + i], 10, 10 - i, 1, 1);
+        block[20+i]->setLayout(new CardLayout(13,0));
+        block[20+i]->layout()->setContentsMargins(0,0,0,0);
     }
     for (int i = 0; i <= 9; ++i) {
         layout->addWidget(block[30 + i], 10 - i, 0, 1, 1);
+        block[30+i]->setLayout(new CardLayout(13,1));
+        block[30+i]->layout()->setContentsMargins(0,0,0,0);
     }
 }
 
 void Map::Move(int __player, int __step) {
+    int origLoc = player[__player]->Location();
+    block[origLoc]->layout()->removeWidget(&player[__player]->symbol);
     player[__player]->Move(__step);
     int loc = player[__player]->Location();
+    player[__player]->symbol.setDirection(((loc/10)+1)%4);
+    player[__player]->symbol.setParent(nullptr);
+    block[loc]->layout()->addWidget(&player[__player]->symbol);
     if (loc < __step) player[__player]->Earn(200);
     //判断行动
     if (block[loc]->Type() == "START") {
