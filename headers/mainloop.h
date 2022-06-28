@@ -20,7 +20,7 @@ public:
     void gamestart();
 
 signals:
-    void Continue();
+    void Quit();
 };
 
 

@@ -17,12 +17,21 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     dice->setParent(this);
     dice->move(520,280);
     dice->show();
-    stylizedButton* diceBtn= new stylizedButton("roll",30,30);
+    /*
+    stylizedButton* diceBtn = new stylizedButton("roll",30,30);
     dice->show();
     diceBtn->setParent(this);
     diceBtn->move(500,280);
-    connect(diceBtn,&stylizedButton::pressed,[=]{
+    connect(diceBtn,&stylizedButton::pressed,this,[=]{
         qDebug()<<dice->roll();
+    });
+    */
+    stylizedButton* quitBtn = new stylizedButton("quit",30,30);
+    dice->show();
+    quitBtn->setParent(this);
+    quitBtn->move(300,280);
+    connect(quitBtn,&stylizedButton::pressed,this,[=]{
+        emit Quit();
     });
 }
 void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, bool _pointEnabled) {
@@ -54,7 +63,20 @@ void mainloop::gamestart() {
         for(int existplayer = map.playerNumber; existplayer > 1; ) {
             int maxnum = 0;
             for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) {
-                int key = map.player[i]->Roll();
+                int key;
+
+                QEventLoop* el = new QEventLoop;
+                stylizedButton* Btn = new stylizedButton("掷骰子", 100, 30);
+                Btn->setParent(this);
+                Btn->move(500, 280);
+                Btn->show();
+                connect(Btn, &stylizedButton::pressed, this, [=, &key]() {
+                    dice->show();
+                    key = dice->roll();
+                    el->exit();
+                });
+                el->exec();
+
                 weight[i] = key / 10 + key % 10;
                 if(weight[i] > maxnum) maxnum = weight[i];
             }
@@ -65,19 +87,35 @@ void mainloop::gamestart() {
         }
         for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) current = i;
     }
-    for(; ; current = (current + 1) % map.playerNumber) {
+    for(bool quittag = false; !quittag; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
+        int key, px, py;
         QEventLoop* el = new QEventLoop;
-        connect(this, &mainloop::Continue, this, [=]() {
+
+        stylizedButton* BtnA = new stylizedButton("掷骰子", 100, 30);
+        BtnA->setParent(this);
+        BtnA->move(500, 280);
+        connect(BtnA, &stylizedButton::pressed, this, [=, &key]() {
+            dice->show();
+            key = dice->roll();
             el->exit();
         });
         el->exec();
-        int key = map.player[current]->Roll();
-        int px = key / 10, py = key % 10;
+
+
+        px = key / 10, py = key % 10;
         map.Move(current, px + py);
-        connect(this, &mainloop::Continue, this, [=]() {
+
+
+        stylizedButton* BtnB = new stylizedButton("结束回合", 100, 30);
+        BtnB->setParent(this);
+        BtnB->move(500, 280);
+        connect(BtnB, &stylizedButton::pressed, this, [=]() {
             el->exit();
         });
         el->exec();
+        connect(this, &mainloop::Quit, this, [=, &quittag]() {
+           quittag = true;
+        });
     }
 }
