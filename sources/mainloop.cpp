@@ -1,5 +1,7 @@
 #include "headers/mainloop.h"
 
+#include <ctime>
+#include <cstdlib>
 #include <utility>
 #include "QPainter"
 #include "headers/dice.h"
@@ -19,17 +21,17 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     dice->show();
     /*
     stylizedButton* diceBtn = new stylizedButton("roll",30,30);
-    dice->show();
     diceBtn->setParent(this);
     diceBtn->move(500,280);
+    diceBtn->show();
     connect(diceBtn,&stylizedButton::pressed,this,[=]{
         qDebug()<<dice->roll();
     });
     */
     stylizedButton* quitBtn = new stylizedButton("quit",30,30);
-    dice->show();
     quitBtn->setParent(this);
     quitBtn->move(300,280);
+    quitBtn->show();
     connect(quitBtn,&stylizedButton::pressed,this,[=]{
         emit Quit();
     });
@@ -55,6 +57,7 @@ void mainloop::paintEvent(QPaintEvent *) {
 }
 
 void mainloop::gamestart() {
+    srand(time(0) + clock());
     //决定起家
     int current = 0;
     {
@@ -76,6 +79,7 @@ void mainloop::gamestart() {
                     el->exit();
                 });
                 el->exec();
+                delete Btn;
 
                 weight[i] = key / 10 + key % 10;
                 if(weight[i] > maxnum) maxnum = weight[i];
@@ -95,13 +99,14 @@ void mainloop::gamestart() {
         stylizedButton* BtnA = new stylizedButton("掷骰子", 100, 30);
         BtnA->setParent(this);
         BtnA->move(500, 280);
+        BtnA->show();
         connect(BtnA, &stylizedButton::pressed, this, [=, &key]() {
             dice->show();
             key = dice->roll();
             el->exit();
         });
         el->exec();
-
+        delete BtnA;
 
         px = key / 10, py = key % 10;
         map.Move(current, px + py);
@@ -110,6 +115,7 @@ void mainloop::gamestart() {
         stylizedButton* BtnB = new stylizedButton("结束回合", 100, 30);
         BtnB->setParent(this);
         BtnB->move(500, 280);
+        BtnB->show();
         connect(BtnB, &stylizedButton::pressed, this, [=]() {
             el->exit();
         });
@@ -117,5 +123,6 @@ void mainloop::gamestart() {
         connect(this, &mainloop::Quit, this, [=, &quittag]() {
            quittag = true;
         });
+        delete BtnB;
     }
 }

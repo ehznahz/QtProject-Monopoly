@@ -1,8 +1,6 @@
 #include "headers/map.h"
 #include "QGridLayout"
 #include "QPalette"
-#include <cstdlib>
-#include <ctime>
 
 Map::Map() {
     this->setFixedSize(860, 860);
