@@ -1,11 +1,8 @@
 #include <QPainter>
-<<<<<<< HEAD
-#include "headers/Dice.h"
-=======
 #include "headers/dice.h"
->>>>>>> 01254d84120208b070ae4074f182913d0d94eacb
 #include "headers/stylizedbutton.h"
 #include "QEventLoop"
+
 Dice::Dice() {
     this->setFixedSize(200,100);
     stopAE();

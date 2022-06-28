@@ -66,8 +66,8 @@ void mainloop::gamestart() {
         for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) current = i;
     }
     for(; ; current = (current + 1) % map.playerNumber) {
-        QEventLoop* el = new QEventLoop;
         if(!map.player[current]->Alive()) continue;
+        QEventLoop* el = new QEventLoop;
         connect(this, &mainloop::Continue, this, [=]() {
             el->exit();
         });

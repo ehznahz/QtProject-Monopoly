@@ -11,8 +11,9 @@ class Dice: public QWidget{
 public:
     Dice();
     int roll();
-    int px=1;int py=1;
-    void initPainter(QPainter *) const;
+    int px=1;
+    int py=1;
+    void initPainter(QPainter *) const override;
     void startAE(){
         m_nIndex=0;
         m_pTimer = new QTimer();
