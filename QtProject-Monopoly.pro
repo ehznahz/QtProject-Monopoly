@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    sources/Dice.cpp \
     sources/block.cpp \
     sources/eventwatcher.cpp \
     sources/gameinitial.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
     sources/player.cpp
 
 HEADERS += \
+    headers/Dice.h \
     headers/block.h \
     headers/eventwatcher.h \
     headers/gameinitial.h \
