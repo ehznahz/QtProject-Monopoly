@@ -11,8 +11,8 @@ Map::Map() {
     //FIXME 透明属性
     //地图初始化
     //TODO 地图填写
-    block[0] = new Block("   GO!   \n         ", "Pass Go! \nGet $200 ", "START", -1, 0, 0, 0, 0, 0);
-    block[1] = new Block("A", "         \n   $60   ", "Property", 1, 60, 50, 2, 1, 0);
+    block[0] = new Block("   GO!   \n         ", "Pass Go! \nGet $200 ", "北大西门", -1, 0, 0, 0, 0, 0);
+    block[1] = new Block("A", "         \n   $60   ", "承泽园", 1, 60, 50, 2, 1, 0);
     block[2] = new Block("Community\n  Chest  ", "         \n         ", "Community Chest", -1, 0, 0, 0, 1, 0);
     block[3] = new Block("         \n         ", "         \n   $60   ", "Property", 1, 60, 50, 4, 1, 0);
     block[4] = new Block("         \n         ", "         \nPay $200 ", "Tax", -1, 0, 0, 200, 1, 0);
