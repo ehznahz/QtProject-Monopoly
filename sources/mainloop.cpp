@@ -74,6 +74,7 @@ void mainloop::gamestart() {
                 Btn->move(500, 280);
                 Btn->show();
                 connect(Btn, &stylizedButton::pressed, this, [=, &key]() {
+                    Btn->setDisabled(true);
                     dice->show();
                     key = dice->roll();
                     el->exit();
@@ -101,6 +102,7 @@ void mainloop::gamestart() {
         BtnA->move(500, 280);
         BtnA->show();
         connect(BtnA, &stylizedButton::pressed, this, [=, &key]() {
+            BtnA->setDisabled(true);
             dice->show();
             key = dice->roll();
             el->exit();
@@ -117,6 +119,7 @@ void mainloop::gamestart() {
         BtnB->move(500, 280);
         BtnB->show();
         connect(BtnB, &stylizedButton::pressed, this, [=]() {
+            BtnB->setDisabled(true);
             el->exit();
         });
         el->exec();
