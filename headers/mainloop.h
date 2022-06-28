@@ -3,6 +3,7 @@
 
 #include "QWidget"
 #include "headers/map.h"
+#include "headers/Dice.h"
 
 class mainloop : public QWidget
 {
@@ -10,6 +11,7 @@ class mainloop : public QWidget
     int roundLimit = 0;
     bool pointEnabled = false;
     Map map;
+    Dice* dice;
 
 public:
     explicit mainloop(QWidget* parent = nullptr);

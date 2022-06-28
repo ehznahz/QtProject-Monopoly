@@ -16,5 +16,34 @@
         <file>resources/image/icons/arrow-up.png</file>
         <file>resources/image/icons/unchecked.png</file>
         <file>resources/image/icons/start.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng0.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng1.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng10.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng11.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng12.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng13.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng14.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng15.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng16.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng17.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng18.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng19.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng2.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng20.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng21.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng22.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng3.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng4.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng5.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng6.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng7.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng8.png</file>
+        <file>resources/image/dice/dice.apng/dice.apng9.png</file>
+        <file>resources/image/dice/dice1.png</file>
+        <file>resources/image/dice/dice2.png</file>
+        <file>resources/image/dice/dice3.png</file>
+        <file>resources/image/dice/dice4.png</file>
+        <file>resources/image/dice/dice5.png</file>
+        <file>resources/image/dice/dice6.png</file>
     </qresource>
 </RCC>

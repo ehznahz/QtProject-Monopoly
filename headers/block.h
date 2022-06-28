@@ -21,7 +21,7 @@ class Block : public QAbstractButton
     int direction;
     int sizeType;
     void paintEvent(QPaintEvent*)override;
-    const int RGBColor[9]={0x5a189a,0xf94144,0xF3722C,0xF8961E,0xF9C74F,0x90BE6D,0x43AA8B,0x4D908E,0x577590};
+    const int RGBColor[9]={0x2C1F36,0xf94144,0xF3722C,0xF8961E,0xF9C74F,0x90BE6D,0x43AA8B,0x4D908E,0x577590};
 
 public:
     Block(QString, QString, QString, int, int, int, int, int, int);
