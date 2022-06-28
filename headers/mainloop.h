@@ -12,11 +12,15 @@ class mainloop : public QWidget
     bool pointEnabled = false;
     Map map;
     Dice* dice;
+
 public:
     explicit mainloop(QWidget* parent = nullptr);
     void reset(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
     void paintEvent(QPaintEvent*) override;
     void gamestart();
+
+signals:
+    void Continue();
 };
 
 

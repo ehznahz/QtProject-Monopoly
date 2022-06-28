@@ -85,37 +85,37 @@ void Map::Move(int __player, int __step) {
         player[__player]->Imprison();
     } else if (block[loc]->Type() == "Tax") {
         player[__player]->Earn(-block[loc]->Price2());
-        if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+        if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
     } else if (block[loc]->Type() == "Property") {
         if (block[loc]->Owner() == -1) {
-            Map::BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            emit BuyOrNot(__player, loc);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             player[__player]->Earn(-int(block[loc]->Price2() * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Railroad") {
         if (block[loc]->Owner() == -1) {
             Map::BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             int cost = 25;
             for (int i = (loc + 10) % 40; i != loc; i = (i + 10) % 40)
                 if (block[i]->Owner() == block[loc]->Owner()) cost <<= 1;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Utility") {
         if (block[loc]->Owner() == -1) {
-            Map::BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            emit BuyOrNot(__player, loc);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             int cost = __step;
             if (block[40 - loc]->Owner() == block[loc]->Owner()) cost *= 10;
             else
                 cost *= 4;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) Map::SellOrNot(__player);
+            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Community Chest") {
         //TODO
@@ -132,22 +132,6 @@ void Map::Update() {
                 if (block[i]->Color() == block[j]->Color() && block[i]->Owner() != block[j]->Owner()) flag = false;
             if(block[i]->United() != flag) block[i]->ChangeUnited();
         }
-}
-
-void Map::BuyOrNot(int __player, int __block) {
-    //TODO
-}
-
-void Map::BankruptOrNot(int __player) {
-    //TODO
-}
-
-void Map::SellOrNot(int __player) {
-    //TODO
-}
-
-void Map::Trade(int __player1, int __player2) {
-    //TODO
 }
 
 void Map::Bankrupt(int __player1, int __player2) {

@@ -4,6 +4,8 @@
 #include "QPainter"
 #include "headers/Dice.h"
 #include "headers/stylizedbutton.h"
+#include "QEventLoop"
+
 mainloop::mainloop(QWidget *parent): QWidget(parent) {
     this->setFixedSize(1600,900);
     this->move(0,0);
@@ -44,7 +46,7 @@ void mainloop::paintEvent(QPaintEvent *) {
 }
 
 void mainloop::gamestart() {
-    //TODO 置出同点数的尴尬情况
+    //决定起家
     int current = 0;
     {
         bool winner[6] = {1, 1, 1, 1, 1, 1};
@@ -64,9 +66,18 @@ void mainloop::gamestart() {
         for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) current = i;
     }
     for(; ; current = (current + 1) % map.playerNumber) {
+        QEventLoop* el = new QEventLoop;
         if(!map.player[current]->Alive()) continue;
+        connect(this, &mainloop::Continue, this, [=]() {
+            el->exit();
+        });
+        el->exec();
         int key = map.player[current]->Roll();
         int px = key / 10, py = key % 10;
         map.Move(current, px + py);
+        connect(this, &mainloop::Continue, this, [=]() {
+            el->exit();
+        });
+        el->exec();
     }
 }

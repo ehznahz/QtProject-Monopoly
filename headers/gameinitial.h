@@ -19,7 +19,7 @@ public:
 
 
 signals:
-    void gameStarted(QList<Player *> _player, int playerCount, int initMoney, int roundLimit, bool pointEnabled);
+    void gameStarted(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
 };
 
 #endif // GAMEINITIAL_H

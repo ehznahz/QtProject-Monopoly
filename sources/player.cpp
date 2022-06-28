@@ -1,6 +1,6 @@
 #include "headers/player.h"
 
-Player::Player(int __color, QString __name, int __money, double __lucky_rate, double __escape_rate, double __rent_rate, double __build_rate): symbol(__color,0,45,45){
+Player::Player(int __color, QString __name, int __money, double __lucky_rate, double __escape_rate, double __rent_rate, double __build_rate) : symbol(__color, 0, 45, 45) {
     name = __name;
     lucky_rate = __lucky_rate;
     escape_rate = __escape_rate;
