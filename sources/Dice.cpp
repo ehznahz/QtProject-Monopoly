@@ -1,5 +1,5 @@
 #include <QPainter>
-#include "headers/Dice.h"
+#include "headers/dice.h"
 #include "headers/stylizedbutton.h"
 #include "QEventLoop"
 Dice::Dice() {

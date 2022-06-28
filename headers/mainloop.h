@@ -3,7 +3,7 @@
 
 #include "QWidget"
 #include "headers/map.h"
-#include "headers/Dice.h"
+#include "headers/dice.h"
 
 class mainloop : public QWidget
 {
