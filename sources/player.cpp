@@ -13,7 +13,9 @@ Player::Player(int __color, QString __name, int __money, double __lucky_rate, do
     alive = true;
 }
 
-int Player::Roll() {
+[[
+        deprecated
+]]int Player::Roll() {
     int px = rand() % 6 + 1, py = rand() % 6 + 1;
     return px * 10 + py;
 }

@@ -95,7 +95,15 @@ void Block::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    //painter.setPen(QPen(QColor(0,0,0,0)));
-    painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
-    painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),10,10);
+    //painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
+    //painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),10,10);
+    painter.setBrush(QBrush(QColor(RGBColor[0]),Qt::SolidPattern));
+    painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),5,5);
+    if(color!=-1){
+        painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
+        if(direction==0)painter.drawRoundedRect(0,QWidget::height()-30,QWidget::width(),30,5,5);
+        if(direction==1)painter.drawRoundedRect(0,0,30,QWidget::height(),5,5);
+        if(direction==2)painter.drawRoundedRect(0,0,QWidget::width(),30,5,5);
+        if(direction==3)painter.drawRoundedRect(QWidget::width()-30,0,30,QWidget::height(),5,5);
+    }
 }

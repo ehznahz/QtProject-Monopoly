@@ -1,19 +1,25 @@
 #include "headers/map.h"
 #include "QGridLayout"
+#include "QPalette"
 #include <cstdlib>
 #include <ctime>
 
 Map::Map() {
     this->setFixedSize(860, 860);
+    QPalette qPalette;
+    qPalette.setColor(QPalette::Window,QColor(0x18101e));
+    this->setPalette(qPalette);
+    this->setAutoFillBackground(true);
+    //FIXME 透明属性
     //地图初始化
     //TODO 地图填写
     block[0] = new Block("   GO!   \n         ", "Pass Go! \nGet $200 ", "START", -1, 0, 0, 0, 0, 0);
-    block[1] = new Block("         \n         ", "         \n   $60   ", "Property", 1, 60, 50, 2, 1, 0);
+    block[1] = new Block("A", "         \n   $60   ", "Property", 1, 60, 50, 2, 1, 0);
     block[2] = new Block("Community\n  Chest  ", "         \n         ", "Community Chest", -1, 0, 0, 0, 1, 0);
     block[3] = new Block("         \n         ", "         \n   $60   ", "Property", 1, 60, 50, 4, 1, 0);
     block[4] = new Block("         \n         ", "         \nPay $200 ", "Tax", -1, 0, 0, 200, 1, 0);
     block[5] = new Block("         \n         ", "         \n  $200   ", "Railroad", -1, 200, 0, 0, 1, 0);
-    block[6] = new Block(" Chance  \n         ", "         \n  $100   ", "Property", 2, 100, 50, 6, 1, 0);
+    block[6] = new Block("        \n         ", "         \n  $100   ", "Property", 2, 100, 50, 6, 1, 0);
     block[7] = new Block("         \n         ", "         \n         ", "Chance", -1, 0, 0, 0, 1, 0);
     block[8] = new Block("         \n         ", "         \n  $100   ", "Property", 2, 60, 50, 6, 1, 0);
     block[9] = new Block("         \n         ", "         \n  $120   ", "Property", 2, 60, 50, 8, 1, 0);

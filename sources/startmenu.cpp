@@ -26,7 +26,6 @@ startMenu::startMenu(QWidget *parent): QWidget{parent}{
     stylizedButton* exitBtn = new stylizedButton(40,40,":/resources/image/icons/exit.png");
     exitBtn->setParent(this);
     exitBtn->move(this->width()*0.985-exitBtn->width(),this->height()*0.08-exitBtn->height());
-    // TODO 通知确定模块化
     connect(exitBtn,&stylizedButton::clicked,this,[=](){
         QWidget* pop = new QWidget();
         pop->setObjectName("quitWidget");
