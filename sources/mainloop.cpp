@@ -58,9 +58,6 @@ void mainloop::gamestart() {
 
     //初始化地块按钮
 
-    //测试用
-    for(int i = 0; i < 40; ++i) map.block[i]->Buy(0), map.player[0]->Buy(i);
-
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
             QWidget* pop = new QWidget();
