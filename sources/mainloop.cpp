@@ -7,6 +7,8 @@
 #include "headers/dice.h"
 #include "headers/stylizedbutton.h"
 #include "QEventLoop"
+#include "QVBoxLayout"
+#include "headers/cardview.h"
 
 mainloop::mainloop(QWidget *parent): QWidget(parent) {
     this->setFixedSize(1600,900);
@@ -14,20 +16,10 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     map.setParent(this);
     map.move(200,20);
     map.show();
-    //map.setAutoFillBackground(true);
     dice = new Dice();
     dice->setParent(this);
     dice->move(520,280);
     dice->show();
-    /*
-    stylizedButton* diceBtn = new stylizedButton("roll",30,30);
-    diceBtn->setParent(this);
-    diceBtn->move(500,280);
-    diceBtn->show();
-    connect(diceBtn,&stylizedButton::pressed,this,[=]{
-        qDebug()<<dice->roll();
-    });
-    */
     stylizedButton* quitBtn = new stylizedButton("quit",30,30);
     quitBtn->setParent(this);
     quitBtn->move(300,280);
@@ -41,6 +33,9 @@ void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, 
         map.player[i]=_player[i];
         map.player[i]->symbol.setParent(&map);
         map.player[i]->symbol.hide();
+        map.player[i]->symbol.setDirection(1);
+        ((CardLayout*)(map.block[0]->layout()))->addWidget(&(map.player[i]->symbol));
+        map.player[i]->symbol.show();
     }
     map.playerNumber=playerCount;
     roundLimit = _roundLimit;
