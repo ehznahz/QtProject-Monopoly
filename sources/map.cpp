@@ -29,7 +29,7 @@ Map::Map() {
     block[12] = new Block("新太阳学生中心", "￥150", "Utility", -1, 150, 0, 0, 1, 1);
     block[13] = new Block("臭名昭著45乙", "￥140", "Property", 3, 140, 100, 10, 1, 1);
     block[14] = new Block("金碧辉煌35楼", "￥160", "Property", 3, 160, 100, 12, 1, 1);
-    block[15] = new Block("人民大学站", " ￥200", "Railroad", -1, 200, 0, 0, 1, 1);
+    block[15] = new Block("人民大学站", "￥200", "Railroad", -1, 200, 0, 0, 1, 1);
     block[16] = new Block("平平无奇28楼", "￥180", "Property", 4, 180, 100, 14, 1, 1);
     block[17] = new Block("宝箱", "试试你的运气", "Community Chest", -1, 0, 0, 0, 1, 1);
     block[18] = new Block("静园", "￥180", "Property", 4, 180, 100, 14, 1, 1);
@@ -42,7 +42,7 @@ Map::Map() {
     block[25] = new Block("海淀黄庄站", "￥200", "Railroad", -1, 200, 0, 0, 1, 2);
     block[26] = new Block("微纳电子大厦", "￥260", "Property", 6, 260, 150, 22, 1, 2);
     block[27] = new Block("王克桢楼", "￥260", "Property", 6, 260, 150, 22, 1, 2);
-    block[28] = new Block("近邻宝", "￥150", "Utility", -1, 0, 0, 0, 1, 2);
+    block[28] = new Block("近邻宝", "￥150", "Utility", -1, 150, 0, 0, 1, 2);
     block[29] = new Block("圆明园校区", "￥280", "Property", 6, 280, 150, 22, 1, 2);
     block[30] = new Block("树洞禁言", "不经过起点，直接进小黑屋", "Go To Jail", -1, 0, 0, 0, 0, 2);
     block[31] = new Block("五四体育场", "￥300", "Property", 7, 300, 200, 26, 1, 3);
@@ -95,8 +95,10 @@ void Map::Move(int __player, int __step) {
     } else if (block[loc]->Type() == "Jail") {
     } else if (block[loc]->Type() == "Free Parking") {
     } else if (block[loc]->Type() == "Go To Jail") {
-        player[__player]->Move(20);
-        if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
+        if(rand() % 32768 > player[__player]->EscapeRate() * 32768){
+            player[__player]->Imprison();
+            player[__player]->Move(20);
+        }
         else {
             //TODO display
         }
