@@ -38,7 +38,7 @@ public:
     void setEscapeRate(double escapeRate);
     void setRentRate(double rentRate);
     void setBuildRate(double buildRate);
-
+    void Abandon(int block);
     playerSymbol symbol;
     const QString &getName() const;
 };

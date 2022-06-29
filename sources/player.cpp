@@ -21,6 +21,10 @@ void Player::Buy(int __block) {
     get[__block] = true;
 }
 
+void Player::Abandon(int __block){
+    get[__block] = false;
+}
+
 void Player::Earn(int __money) {
     money += __money;
 }
