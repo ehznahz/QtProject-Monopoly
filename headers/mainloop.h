@@ -18,6 +18,9 @@ public:
     void reset(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
     void paintEvent(QPaintEvent*) override;
     void gamestart();
+    void TradingSelect(int currentPlayer);
+    void TradingWith(int currentPlayer,int targetPlayer);
+    void blockOp(int current,int _block);
 
 signals:
     void Quit();

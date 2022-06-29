@@ -119,3 +119,6 @@ void Block::paintEvent(QPaintEvent *) {
         if(direction==3)painter.drawRoundedRect(QWidget::width()-30,0,30,QWidget::height(),5,5);
     }
 }
+const QString &Block::getName() const {
+    return name;
+}

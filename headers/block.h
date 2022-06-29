@@ -9,6 +9,11 @@ class Block : public QAbstractButton
 {
     Q_OBJECT
     QString name;
+
+public:
+    const QString &getName() const;
+
+private:
     QString action;
     QString type;
     int color;
