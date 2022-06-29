@@ -315,17 +315,10 @@ void mainloop::gamestart() {
         BtnB->move(500, 250);
         BtnB->show();
         connect(BtnB, &stylizedButton::pressed, this, [=]() {
+            if(map.player[current]->Money() < 0) return;
             BtnB->setDisabled(true);
             el->exit();
         });
-
-        connect(map.player[current], &Player::moneyChanged, this, [=]() {
-            if(map.player[current]->Money() < 0) BtnB->setDisabled(true);
-            else BtnB->setEnabled(true);
-        });
-
-        if(map.player[current]->Money() < 0) BtnB->setDisabled(true);
-        else BtnB->setEnabled(true);
 
         el->exec();
         delete BtnB;
