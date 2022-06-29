@@ -22,6 +22,7 @@ public:
     Player(int, QString, int, double, double, double, double);
     void Move(int);
     void Buy(int);
+    void Abandon(int);
     void Earn(int);
     void Imprison();
     void Wait();
@@ -38,8 +39,10 @@ public:
     void setEscapeRate(double escapeRate);
     void setRentRate(double rentRate);
     void setBuildRate(double buildRate);
-    void Abandon(int block);
     playerSymbol symbol;
     const QString &getName() const;
+
+signals:
+    void moneyChanged();
 };
 #endif

@@ -42,7 +42,7 @@ Map::Map() {
     block[25] = new Block("海淀黄庄站", "￥200", "Railroad", -1, 200, 0, 0, 1, 2);
     block[26] = new Block("微纳电子大厦", "￥260", "Property", 6, 260, 150, 22, 1, 2);
     block[27] = new Block("王克桢楼", "￥260", "Property", 6, 260, 150, 22, 1, 2);
-    block[28] = new Block("近邻宝", "￥150", "Utility", -1, 0, 0, 0, 1, 2);
+    block[28] = new Block("近邻宝", "￥150", "Utility", -1, 150, 0, 0, 1, 2);
     block[29] = new Block("圆明园校区", "￥280", "Property", 6, 280, 150, 22, 1, 2);
     block[30] = new Block("树洞禁言", "不经过起点，直接进小黑屋", "Go To Jail", -1, 0, 0, 0, 0, 2);
     block[31] = new Block("五四体育场", "￥300", "Property", 7, 300, 200, 26, 1, 3);
@@ -102,36 +102,29 @@ void Map::Move(int __player, int __step) {
         }
     } else if (block[loc]->Type() == "Tax") {
         player[__player]->Earn(-block[loc]->Rent());
-        if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
     } else if (block[loc]->Type() == "Property") {
         if (block[loc]->Owner() == -1) {
             emit BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             player[__player]->Earn(-int(block[loc]->Rent() * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Railroad") {
         if (block[loc]->Owner() == -1) {
             emit BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             int cost = 25;
             for (int i = (loc + 10) % 40; i != loc; i = (i + 10) % 40)
                 if (block[i]->Owner() == block[loc]->Owner()) cost <<= 1;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Utility") {
         if (block[loc]->Owner() == -1) {
             emit BuyOrNot(__player, loc);
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
         } else if (block[loc]->Owner() != __player) {
             int cost = __step;
             if (block[40 - loc]->Owner() == block[loc]->Owner()) cost *= 10;
             else cost *= 4;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
-            if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Community Chest") {
         //TODO display
@@ -151,9 +144,10 @@ void Map::Move(int __player, int __step) {
         } else if(key < 13) {
             player[__player]->Earn(-100);
         } else if(key < 15) {
-            player[__player]->Move((20 - loc + 40) % 40);
-            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
-            else {
+            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
+                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Imprison();
+            } else {
             }
         } else {
             int price = 0;
@@ -173,16 +167,19 @@ void Map::Move(int __player, int __step) {
             player[__player]->Move((25 - loc + 40) % 40);
         } else if(key < 5) {
             player[__player]->Move((35 - loc + 40) % 40);
-        } else if(key < 9) {
+        } else if(key < 7) {
             player[__player]->Move(3);
+        } else if(key < 9) {
+            player[__player]->Move(-3);
         } else if(key < 11) {
             player[__player]->Move((39 - loc + 40) % 40);
         } else if(key < 13) {
             player[__player]->Move((21 - loc + 40) % 40);
         } else {
-            player[__player]->Move((20 - loc + 40) % 40);
-            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
-            else {
+            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
+                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Imprison();
+            } else {
             }
         }
     }
