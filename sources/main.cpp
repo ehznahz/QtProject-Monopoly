@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     font.setHintingPreference(QFont::HintingPreference::PreferNoHinting);
     QApplication::setFont(font);
     MainWindow w;
+    w.setAttribute(Qt::WA_DeleteOnClose);
     w.show();
     return a.exec();
 }
