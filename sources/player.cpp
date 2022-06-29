@@ -13,13 +13,6 @@ Player::Player(int __color, QString __name, int __money, double __lucky_rate, do
     alive = true;
 }
 
-[[
-        deprecated
-]]int Player::Roll() {
-    int px = rand() % 6 + 1, py = rand() % 6 + 1;
-    return px * 10 + py;
-}
-
 void Player::Move(int __step) {
     location = (location + __step) % 40;
 }

@@ -2,6 +2,9 @@
 #include "QGridLayout"
 #include "QPalette"
 
+#include "headers/stylizedbutton.h"
+#include "QLabel"
+
 Map::Map() {
     this->setFixedSize(860, 860);
     QPalette qPalette;
@@ -54,17 +57,53 @@ Map::Map() {
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(layout);
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i < 10; ++i) {
         layout->addWidget(block[i], 0, i, 1, 1);
     }
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i < 10; ++i) {
         layout->addWidget(block[10 + i], i, 10, 1, 1);
     }
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i < 10; ++i) {
         layout->addWidget(block[20 + i], 10, 10 - i, 1, 1);
     }
-    for (int i = 0; i <= 9; ++i) {
+    for (int i = 0; i < 10; ++i) {
         layout->addWidget(block[30 + i], 10 - i, 0, 1, 1);
+    }
+    for (int i = 0; i < 40; ++i) {
+        block[i]->setParent(this);
+        connect(block[i],&Block::clicked,this,[=](){
+            QWidget* pop = new QWidget();
+            pop->setObjectName("quitWidget");
+            pop->setStyleSheet("QWidget#quitWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
+            pop->setParent(this->parentWidget());
+            pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+            pop->setFixedSize(1600,900);
+            pop->move(0,0);
+            //按钮
+            stylizedButton* confirm = new stylizedButton("确定",230,50);
+            confirm->setParent(pop);
+            confirm->move(pop->width()*0.5+20,550);
+            connect(confirm,&stylizedButton::clicked,this,[=](){
+                this->parentWidget()->close();
+            });
+            stylizedButton* cancel = new stylizedButton("取消",230,50);
+            cancel->setParent(pop);
+            cancel->move(this->width()*0.5-250,550);
+            connect(cancel,&stylizedButton::clicked,pop,[=](){
+                pop->close();
+            });
+            //文字
+            QLabel *text = new QLabel();
+            text->setParent(pop);
+            text->setText("确定要退出游戏吗?");
+            text->setFont(QFont("Noto Sans SC",25,700));
+            text->setGeometry(this->width()*0.5-250,this->height()*0.4-25,500,50);
+            text->setAlignment(Qt::AlignCenter);
+            text->setStyleSheet("QLabel{color:white;}");
+            text->show();
+            pop->show();
+        });
+
     }
 }
 

@@ -20,7 +20,6 @@ class Player : public QObject
 
 public:
     Player(int, QString, int, double, double, double, double);
-    int Roll();
     void Move(int);
     void Buy(int);
     void Earn(int);
