@@ -53,8 +53,11 @@ void mainloop::paintEvent(QPaintEvent *) {
 
 void mainloop::gamestart() {
     int current = -2;
+
     //初始化地块按钮
-    //测试用 for(int i = 0; i < 40; ++i) map.block[i]->Buy(0), map.player[0]->Buy(i);
+    //测试用
+
+    for(int i = 0; i < 40; ++i) map.block[i]->Buy(0), map.player[0]->Buy(i);
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
             qDebug() << "why?" << current;
@@ -65,10 +68,12 @@ void mainloop::gamestart() {
             pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
             pop->setFixedSize(1600, 900);
             pop->move(0, 0);
+            pop->show();
 
             stylizedButton* close = new stylizedButton("返回", 200, 50);
             close->setParent(pop);
             close->move(0, 0);
+            close->show();
             connect(close, &stylizedButton::clicked, this, [=]() {
                 pop->close();
             });
@@ -76,11 +81,13 @@ void mainloop::gamestart() {
             stylizedButton* mortgage = new stylizedButton("抵押", 200, 50);
             mortgage->setParent(pop);
             mortgage->move(900, 650);
+            mortgage->show();
             if(map.block[i]->Owner() != current) mortgage->setDisabled(true);
             else if(map.block[i]->Mortgaged()) mortgage->setDisabled(true);
             else if(map.block[i]->House() > 0) mortgage->setDisabled(true);
-            else mortgage->setDisabled(false);
+            else mortgage->setEnabled(true);
             connect(mortgage, &stylizedButton::clicked, this, [=]() {
+                qDebug() << "111";
                 map.Mortgage(current, i);
                 pop->close();
             });
@@ -88,9 +95,10 @@ void mainloop::gamestart() {
             stylizedButton* redeem = new stylizedButton("赎回", 200, 50);
             redeem->setParent(pop);
             redeem->move(500, 650);
+            redeem->show();
             if(map.block[i]->Owner() != current) redeem->setDisabled(true);
             else if(!map.block[i]->Mortgaged()) redeem->setDisabled(true);
-            else redeem->setDisabled(false);
+            else redeem->setEnabled(true);
             connect(redeem, &stylizedButton::clicked, this, [=]() {
                 map.Redeem(current, i);
                 pop->close();
@@ -99,12 +107,13 @@ void mainloop::gamestart() {
             stylizedButton* buy = new stylizedButton("买房", 200, 50);
             buy->setParent(pop);
             buy->move(500, 750);
+            buy->show();
             if(map.block[i]->Type() != "Property") buy->setDisabled(true);
             else if(map.block[i]->Owner() != current) buy->setDisabled(true);
             else if(!map.block[i]->United()) buy->setDisabled(true);
             else if(map.block[i]->Mortgaged()) buy->setDisabled(true);
             else if(map.block[i]->House() == 5) buy->setDisabled(true);
-            else buy->setDisabled(false);
+            else buy->setEnabled(true);
             connect(buy, &stylizedButton::clicked, this, [=]() {
                 map.Build(current, i);
                 pop->close();
@@ -113,12 +122,13 @@ void mainloop::gamestart() {
             stylizedButton* sell = new stylizedButton("卖房", 200, 50);
             sell->setParent(pop);
             sell->move(900, 750);
+            sell->show();
             if(map.block[i]->Type() != "Property") sell->setDisabled(true);
             else if(map.block[i]->Owner() != current) sell->setDisabled(true);
             else if(!map.block[i]->United()) sell->setDisabled(true);
             else if(map.block[i]->Mortgaged()) sell->setDisabled(true);
             else if(map.block[i]->House() == 0) sell->setDisabled(true);
-            else sell->setDisabled(false);
+            else sell->setEnabled(true);
             connect(sell, &stylizedButton::clicked, this, [=]() {
                 map.Sell(current, i);
                 pop->close();
@@ -175,7 +185,6 @@ void mainloop::gamestart() {
             text->setAlignment(Qt::AlignCenter);
             text->setStyleSheet("QLabel{color:white;}");
             text->show();
-            pop->show();
         });
     }
     srand(time(0) + clock());
