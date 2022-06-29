@@ -88,7 +88,6 @@ Map::Map() {
             pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
             pop->setFixedSize(1600,900);
             pop->move(0,0);
-            //按钮
             stylizedButton* confirm = new stylizedButton("确定",230,50);
             confirm->setParent(pop);
             confirm->move(pop->width()*0.5+20,550);
@@ -101,7 +100,6 @@ Map::Map() {
             connect(cancel,&stylizedButton::clicked,pop,[=](){
                 pop->close();
             });
-            //文字
             QLabel *text = new QLabel();
             text->setParent(pop);
             text->setText("确定要退出游戏吗?");
@@ -132,7 +130,10 @@ void Map::Move(int __player, int __step) {
     } else if (block[loc]->Type() == "Free Parking") {
     } else if (block[loc]->Type() == "Go To Jail") {
         player[__player]->Move(20);
-        player[__player]->Imprison();
+        if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
+        else {
+            //TODO display
+        }
     } else if (block[loc]->Type() == "Tax") {
         player[__player]->Earn(-block[loc]->Price2());
         if (player[__player]->Money() < 0) emit BankruptOrNot(__player, -1);
@@ -162,15 +163,62 @@ void Map::Move(int __player, int __step) {
         } else if (block[loc]->Owner() != __player) {
             int cost = __step;
             if (block[40 - loc]->Owner() == block[loc]->Owner()) cost *= 10;
-            else
-                cost *= 4;
+            else cost *= 4;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
             if (player[__player]->Money() < 0) emit BankruptOrNot(__player, block[loc]->Owner());
         }
     } else if (block[loc]->Type() == "Community Chest") {
-        //TODO
+        //TODO display
+        int key = rand() % 16 - player[__player]->LuckyRate() * 16;
+        if(key < 1) {
+           player[__player]->Move((-loc + 40) % 40);
+        } else if(key < 4) {
+            player[__player]->Earn(50);
+        } else if(key < 7) {
+            int num = 0;
+            for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
+            player[__player]->Earn(10 * num);
+        } else if(key < 10) {
+            int num = 0;
+            for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
+            player[__player]->Earn(-20 * num);
+        } else if(key < 13) {
+            player[__player]->Earn(-100);
+        } else if(key < 15) {
+            player[__player]->Move((20 - loc + 40) % 40);
+            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
+            else {
+            }
+        } else {
+            int price = 0;
+            for(int i = 0; i < 40; ++i) if(block[i]->Owner() == __player) price += block[i]->House() * 50;
+            player[__player]->Earn(-price);
+        }
     } else if (block[loc]->Type() == "Chance") {
-        //TODO
+        //TODO display
+        int key = rand() % 16 - player[__player]->LuckyRate() * 16;
+        if(key < 1) {
+            player[__player]->Move((-loc + 40) % 40);
+        } else if(key < 2) {
+            player[__player]->Move((5 - loc + 40) % 40);
+        } else if(key < 3) {
+            player[__player]->Move((15 - loc + 40) % 40);
+        } else if(key < 4) {
+            player[__player]->Move((25 - loc + 40) % 40);
+        } else if(key < 5) {
+            player[__player]->Move((35 - loc + 40) % 40);
+        } else if(key < 9) {
+            player[__player]->Move(3);
+        } else if(key < 11) {
+            player[__player]->Move((39 - loc + 40) % 40);
+        } else if(key < 13) {
+            player[__player]->Move((21 - loc + 40) % 40);
+        } else {
+            player[__player]->Move((20 - loc + 40) % 40);
+            if(rand() % 32768 > player[__player]->EscapeRate() * 32768) player[__player]->Imprison();
+            else {
+            }
+        }
     }
 }
 

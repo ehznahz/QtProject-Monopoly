@@ -20,9 +20,9 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     dice->setParent(this);
     dice->move(520,280);
     dice->show();
-    stylizedButton* quitBtn = new stylizedButton("quit",30,30);
+    stylizedButton* quitBtn = new stylizedButton("quit",60,30);
     quitBtn->setParent(this);
-    quitBtn->move(300,280);
+    quitBtn->move(300,250);
     quitBtn->show();
     connect(quitBtn,&stylizedButton::pressed,this,[=]{
         emit Quit();
@@ -66,7 +66,7 @@ void mainloop::gamestart() {
                 QEventLoop* el = new QEventLoop;
                 stylizedButton* Btn = new stylizedButton("掷骰子", 100, 30);
                 Btn->setParent(this);
-                Btn->move(500, 280);
+                Btn->move(500, 250);
                 Btn->show();
                 connect(Btn, &stylizedButton::pressed, this, [=, &key]() {
                     Btn->setDisabled(true);
@@ -89,12 +89,34 @@ void mainloop::gamestart() {
     }
     for(bool quittag = false; !quittag; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
-        int key, px, py;
         QEventLoop* el = new QEventLoop;
+        if(map.player[current]->Active() < 0) {
+            stylizedButton* BtnA = new stylizedButton("支付 $50 直接出小黑屋", 250, 30);
+            BtnA->setParent(this);
+            BtnA->move(300, 200);
+            BtnA->show();
+            stylizedButton* BtnB = new stylizedButton("继续待着", 250, 30);
+            BtnB->setParent(this);
+            BtnB->move(700, 200);
+            BtnB->show();
+            connect(BtnA, &stylizedButton::pressed, this, [=]() {
+                for(; map.player[current]->Active() < 0; map.player[current]->Wait());
+                el->exit();
+            });
+            connect(BtnB, &stylizedButton::pressed, this, [=]() {
+                map.player[current]->Wait();
+                el->exit();
+            });
+            el->exec();
+            delete BtnA;
+            delete BtnB;
+            continue;
+        }
+        int key, px, py;
 
         stylizedButton* BtnA = new stylizedButton("掷骰子", 100, 30);
         BtnA->setParent(this);
-        BtnA->move(500, 280);
+        BtnA->move(500, 250);
         BtnA->show();
         connect(BtnA, &stylizedButton::pressed, this, [=, &key]() {
             BtnA->setDisabled(true);
@@ -111,7 +133,7 @@ void mainloop::gamestart() {
 
         stylizedButton* BtnB = new stylizedButton("结束回合", 100, 30);
         BtnB->setParent(this);
-        BtnB->move(500, 280);
+        BtnB->move(500, 250);
         BtnB->show();
         connect(BtnB, &stylizedButton::pressed, this, [=]() {
             BtnB->setDisabled(true);

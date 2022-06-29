@@ -24,6 +24,7 @@ public:
     void Buy(int);
     void Earn(int);
     void Imprison();
+    void Wait();
     void Bankrupt();
     double LuckyRate() const;
     double EscapeRate() const;
@@ -31,7 +32,7 @@ public:
     double BuildRate() const;
     int Money() const;
     int Location() const;
-    bool Active() const;
+    int Active() const;
     bool Alive() const;
     void setLuckyRate(double luckyRate);
     void setEscapeRate(double escapeRate);

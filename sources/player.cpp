@@ -29,6 +29,10 @@ void Player::Imprison() {
     active = -2;
 }
 
+void Player::Wait() {
+    ++active;
+}
+
 void Player::Bankrupt() {
     money = 0;
     for(int i = 0; i < 40; ++i) get[i] = false;
@@ -36,11 +40,11 @@ void Player::Bankrupt() {
 }
 
 double Player::LuckyRate() const {
-    return lucky_rate;
+    return lucky_rate - 1;
 }
 
 double Player::EscapeRate() const {
-    return escape_rate;
+    return escape_rate - 1;
 }
 
 double Player::RentRate() const {
@@ -59,25 +63,30 @@ int Player::Location() const {
     return location;
 }
 
-bool Player::Active() const {
-    return active >= 0;
+int Player::Active() const {
+    return active;
 }
 
 bool Player::Alive() const {
     return alive;
 }
+
 const QString &Player::getName() const {
     return name;
 }
+
 void Player::setLuckyRate(double luckyRate) {
     lucky_rate = luckyRate;
 }
+
 void Player::setEscapeRate(double escapeRate) {
     escape_rate = escapeRate;
 }
+
 void Player::setRentRate(double rentRate) {
     rent_rate = rentRate;
 }
+
 void Player::setBuildRate(double buildRate) {
     build_rate = buildRate;
 }
