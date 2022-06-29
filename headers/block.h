@@ -48,5 +48,6 @@ public:
     bool Mortgaged() const;
     bool United() const;
     int House() const;
+    static Player** players;
 };
 #endif

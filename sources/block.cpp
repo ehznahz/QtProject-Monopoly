@@ -107,18 +107,75 @@ void Block::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    //painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
-    //painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),10,10);
     painter.setBrush(QBrush(QColor(RGBColor[0]),Qt::SolidPattern));
     painter.drawRoundedRect(0,0,QWidget::width(),QWidget::height(),5,5);
     if(color!=-1){
         painter.setBrush(QBrush(QColor(Color()),Qt::SolidPattern));
-        if(direction==0)painter.drawRoundedRect(0,QWidget::height()-30,QWidget::width(),30,5,5);
-        if(direction==1)painter.drawRoundedRect(0,0,30,QWidget::height(),5,5);
-        if(direction==2)painter.drawRoundedRect(0,0,QWidget::width(),30,5,5);
-        if(direction==3)painter.drawRoundedRect(QWidget::width()-30,0,30,QWidget::height(),5,5);
+        painter.save();
+        QFont f("Noto Sans SC",10,700);
+        painter.setFont(f);
+        if(direction==0){
+            painter.drawRoundedRect(0,QWidget::height()-30,QWidget::width(),30,5,5);
+            if(Owner()<0){
+                painter.setBrush(QBrush(QColor(0x372A40),Qt::SolidPattern));
+            }
+            else{
+                painter.setBrush(QBrush(QColor(players[Owner()]->symbol.getColor()),Qt::SolidPattern));
+            }
+            painter.drawRoundedRect(0,0,QWidget::width(),30,5,5);
+            painter.setPen(QColor(255,255,255,255));
+            painter.drawText(3,30,QWidget::width()-6,QWidget::height()-60,Qt::AlignCenter|Qt::TextWordWrap,name);
+            if(Owner()<0)painter.drawText(3,0,QWidget::width()-6,30,Qt::AlignCenter|Qt::TextWordWrap,action);
+
+        }
+        if(direction==1){
+            painter.drawRoundedRect(0,0,30,QWidget::height(),5,5);
+            if(Owner()<0){
+                painter.setBrush(QBrush(QColor(0x372A40),Qt::SolidPattern));
+            }
+            else{
+                painter.setBrush(QBrush(QColor(players[Owner()]->symbol.getColor()),Qt::SolidPattern));
+            }
+            painter.drawRoundedRect(QWidget::width()-30,0,30,QWidget::height(),5,5);
+            painter.setPen(QColor(255,255,255,255));
+            painter.translate(0,QWidget::height());
+            painter.rotate(-90);
+            painter.drawText(5,30,QWidget::height()-10,QWidget::width()-60,Qt::AlignCenter|Qt::TextWordWrap,name);
+            if(Owner()<0)painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,action);
+        }
+        if(direction==2){
+            painter.drawRoundedRect(0,0,QWidget::width(),30,5,5);
+            if(Owner()<0){
+                painter.setBrush(QBrush(QColor(0x372A40),Qt::SolidPattern));
+            }
+            else{
+                painter.setBrush(QBrush(QColor(players[Owner()]->symbol.getColor()),Qt::SolidPattern));
+            }
+            painter.drawRoundedRect(0,QWidget::height()-30,QWidget::width(),30,5,5);
+            painter.setPen(QColor(255,255,255,255));
+            painter.drawText(3,30,QWidget::width()-6,QWidget::height()-60,Qt::AlignCenter|Qt::TextWordWrap,name);
+            if(Owner()<0)painter.drawText(5,QWidget::height()-30,QWidget::width()-10,30,Qt::AlignCenter|Qt::TextWordWrap,action);
+        }
+        if(direction==3){
+            painter.drawRoundedRect(QWidget::width()-30,0,30,QWidget::height(),5,5);
+            if(Owner()<0){
+                painter.setBrush(QBrush(QColor(0x372A40),Qt::SolidPattern));
+            }
+            else{
+                painter.setBrush(QBrush(QColor(players[Owner()]->symbol.getColor()),Qt::SolidPattern));
+            }
+            painter.drawRoundedRect(0,0,30,QWidget::height(),5,5);
+            painter.setPen(QColor(255,255,255,255));
+            painter.translate(QWidget::width(),0);
+            painter.rotate(90);
+            painter.drawText(5,30,QWidget::height()-10,QWidget::width()-60,Qt::AlignCenter|Qt::TextWordWrap,name);
+            if(Owner()<0)painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,action);
+        }
+        painter.restore();
     }
 }
 const QString &Block::getName() const {
     return name;
 }
+
+Player** Block::players = nullptr;

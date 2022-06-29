@@ -24,6 +24,9 @@ public:
 
 signals:
     void Quit();
+
+public slots:
+    void Buy(int currentPlayer,int loc);
 };
 
 
