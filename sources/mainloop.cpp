@@ -323,6 +323,7 @@ void mainloop::TradingSelect(int currentPlayer) {
 }
 
 void mainloop::TradingWith(int currentPlayer,int targetPlayer) {
+    this->hide();
     QWidget* tradingView = new QWidget;
     tradingView->setParent(this->parentWidget());
     tradingView->setGeometry(0,0,1600,900);
@@ -417,4 +418,39 @@ void mainloop::TradingWith(int currentPlayer,int targetPlayer) {
     }
     this->repaint();
     tradingView->update();
+    stylizedButton* confirm = new stylizedButton("发起交易",300,50);
+    layout->addWidget(confirm,5,3,1,2);
+    stylizedButton* cancel = new stylizedButton("取消交易",300,50);
+    layout->addWidget(cancel,5,0,1,2);
+    connect(cancel,&stylizedButton::pressed,this,[=](){
+        delete tradingView;
+        this->show();
+    });
+    connect(confirm,&stylizedButton::pressed,this,[=](){
+        sliderA->setDisabled(true);
+        sliderB->setDisabled(true);
+        qWidgetA->setDisabled(true);
+        qWidgetB->setDisabled(true);
+        delete confirm;
+        cancel->setText("拒绝交易");
+        stylizedButton* accept = new stylizedButton("接受交易",300,50);
+        layout->addWidget(accept,5,3,1,2);
+        connect(accept,&stylizedButton::pressed,this,[=](){
+            map.player[currentPlayer]->Earn(-sliderA->value()+sliderB->value());
+            map.player[targetPlayer]->Earn(-sliderB->value()+sliderA->value());
+            for(auto i:*cityA){
+                map.player[currentPlayer]->Abandon(i);
+                map.player[targetPlayer]->Buy(i);
+                map.block[i]->Buy(targetPlayer);
+            }
+            for(auto i:*cityB){
+                map.player[targetPlayer]->Abandon(i);
+                map.player[currentPlayer]->Buy(i);
+                map.block[i]->Buy(currentPlayer);
+            }
+            map.Update();
+            delete tradingView;
+            this->show();
+        });
+    });
 }
