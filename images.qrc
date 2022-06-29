@@ -45,5 +45,17 @@
         <file>resources/image/dice/dice4.png</file>
         <file>resources/image/dice/dice5.png</file>
         <file>resources/image/dice/dice6.png</file>
+        <file>resources/image/map/chance.png</file>
+        <file>resources/image/map/chest.png</file>
+        <file>resources/image/map/metro.png</file>
+        <file>resources/image/map/package.png</file>
+        <file>resources/image/map/sun.png</file>
+        <file>resources/image/map/food.png</file>
+        <file>resources/image/map/power.png</file>
+        <file>resources/image/map/jail.png</file>
+        <file>resources/image/map/start1.png</file>
+        <file>resources/image/map/start2.png</file>
+        <file>resources/image/map/park.png</file>
+        <file>resources/image/map/denied.png</file>
     </qresource>
 </RCC>

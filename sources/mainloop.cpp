@@ -87,7 +87,7 @@ void mainloop::gamestart() {
                               + "拥有 4 座房：￥" + QString::number(map.block[i]->Price2() * 34) + "\n"
                               + "拥有 5 座房：￥" + QString::number(map.block[i]->Price2() * 40) + "\n"
                               + "买房：￥" + QString::number(map.block[i]->Price1()) + "    卖房：￥" + QString::number(map.block[i]->Price1() / 2) + "\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55)) + "\n"
+                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
                 );
             }
             else if(map.block[i]->Type() == "Railroad") {
@@ -98,7 +98,7 @@ void mainloop::gamestart() {
                               + "拥有 2 个地铁站：￥50\n"
                               + "拥有 3 个地铁站：￥100\n"
                               + "拥有 4 个地铁站：￥200\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55)) + "\n"
+                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
                 );
             }
             else if(map.block[i]->Type() == "Utility") {
@@ -107,15 +107,16 @@ void mainloop::gamestart() {
                               + "地租\n"
                               + "拥有 1 个公共设施：￥骰子点数 * 4\n"
                               + "拥有 2 个公共设施：￥骰子点数 * 10\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55)) + "\n"
+                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
                 );
             }
             else {
                 text->setText( "地块名称：" + map.block[i]->Name() + "\n"
-                              + map.block[i]->Action() + "\n"
+                              + map.block[i]->Action()
                 );
             }
             text->setFont(QFont("Noto Sans SC", 16, 500));
+            text->setMargin(10);
             text->setAlignment(Qt::AlignCenter);
             text->setStyleSheet("QLabel{color:white;}");
             textView->layout()->addWidget(text);
@@ -523,14 +524,15 @@ void mainloop::Buy(int currentPlayer,int loc) {
     textView->layout()->addWidget(title);
     text->setParent(pop);
     if (map.block[loc]->Type() == "Property") {
-        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有该地块：￥" + QString::number(map.block[loc]->Price2()) + "\n" + "拥有整片同色地块：￥" + QString::number(map.block[loc]->Price2() * 2) + "\n" + "拥有 1 座房：￥" + QString::number(map.block[loc]->Price2() * 4) + "\n" + "拥有 2 座房：￥" + QString::number(map.block[loc]->Price2() * 12) + "\n" + "拥有 3 座房：￥" + QString::number(map.block[loc]->Price2() * 28) + "\n" + "拥有 4 座房：￥" + QString::number(map.block[loc]->Price2() * 34) + "\n" + "拥有 5 座房：￥" + QString::number(map.block[loc]->Price2() * 40) + "\n" + "买房：￥" + QString::number(map.block[loc]->Price1()) + "    卖房：￥" + QString::number(map.block[loc]->Price1() / 2) + "\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)) + "\n");
+        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有该地块：￥" + QString::number(map.block[loc]->Price2()) + "\n" + "拥有整片同色地块：￥" + QString::number(map.block[loc]->Price2() * 2) + "\n" + "拥有 1 座房：￥" + QString::number(map.block[loc]->Price2() * 4) + "\n" + "拥有 2 座房：￥" + QString::number(map.block[loc]->Price2() * 12) + "\n" + "拥有 3 座房：￥" + QString::number(map.block[loc]->Price2() * 28) + "\n" + "拥有 4 座房：￥" + QString::number(map.block[loc]->Price2() * 34) + "\n" + "拥有 5 座房：￥" + QString::number(map.block[loc]->Price2() * 40) + "\n" + "买房：￥" + QString::number(map.block[loc]->Price1()) + "    卖房：￥" + QString::number(map.block[loc]->Price1() / 2) + "\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)) );
     } else if (map.block[loc]->Type() == "Railroad") {
-        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有 1 个地铁站：￥25\n" + "拥有 2 个地铁站：￥50\n" + "拥有 3 个地铁站：￥100\n" + "拥有 4 个地铁站：￥200\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)) + "\n");
+        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有 1 个地铁站：￥25\n" + "拥有 2 个地铁站：￥50\n" + "拥有 3 个地铁站：￥100\n" + "拥有 4 个地铁站：￥200\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)));
     } else if (map.block[loc]->Type() == "Utility") {
-        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有 1 个公共设施：￥骰子点数 * 4\n" + "拥有 2 个公共设施：￥骰子点数 * 10\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)) + "\n");
+        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n" + "地租\n" + "拥有 1 个公共设施：￥骰子点数 * 4\n" + "拥有 2 个公共设施：￥骰子点数 * 10\n" + "抵押：￥" + QString::number(int(map.block[loc]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[loc]->Price0() * 0.55)));
     } else {
-        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() + "\n");
+        text->setText("地块名称：" + map.block[loc]->Name() + "\n" + map.block[loc]->Action() );
     }
+    text->setMargin(10);
     text->setFont(QFont("Noto Sans SC", 16, 500));
     text->setAlignment(Qt::AlignCenter);
     text->setStyleSheet("QLabel{color:white;}");
