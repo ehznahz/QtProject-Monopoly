@@ -48,6 +48,14 @@ void Block::ChangeUnited() {
     united ^= 1;
 }
 
+QString Block::Name() const {
+    return name;
+}
+
+QString Block::Action() const {
+    return action;
+}
+
 QString Block::Type() const {
     return type;
 }
@@ -66,6 +74,10 @@ int Block::Price1() const {
 }
 
 int Block::Price2() const {
+    return price[2];
+}
+
+int Block::Rent() const {
     if(house == 0) return price[2] * (united ? 2 : 1);
     if(house == 1) return price[2] * 4;
     if(house == 2) return price[2] * 12;

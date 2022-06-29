@@ -31,11 +31,14 @@ public:
     void Build();
     void Sell();
     void ChangeUnited();
+    QString Name() const;
+    QString Action() const;
     QString Type() const;
     int Color() const;
     int Price0() const;
     int Price1() const;
     int Price2() const;
+    int Rent() const;
     int Owner() const;
     bool Mortgaged() const;
     bool United() const;
