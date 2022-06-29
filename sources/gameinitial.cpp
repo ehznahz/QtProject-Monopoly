@@ -14,19 +14,16 @@
 #include "map"
 
 std::map<int, bool> availableColor = {
-        {0x9a2b2e, false},
-        {0xfbc85f, false},
-        {0xf96815, false},
-        {0xc0428a, false},
-        {0x207349, false},
-        {0x96d8de, false},
-        {0x325b74, false},
-        {0x726a4e, false},
-        {0x788f74, false},
-        {0x76c1b2, false},
-        {0xf3774d, false},
-        {0xf8de8d, false},
-        {0xc5aecf, false}};
+        {0xff68b4, false},
+        {0xff00ff, false},
+        {0x00bfff, false},
+        {0x3c8371, false},
+        {0x32cd32, false},
+        {0xffd700, false},
+        {0xeee8aa, false},
+        {0xffa500, false},
+        {0xc0c0c0, false}};
+
 QString defaultName[6] = {"Alice", "Bob", "Carol", "Dave", "Eve", "Francis"};
 double rates[4][4] = {{1.0,1.05,1.1,1.2},
                       {1.0,1.05,1.1,1.2},
