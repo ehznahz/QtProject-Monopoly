@@ -147,7 +147,7 @@ void Map::Move(int __player, int __step) {
             player[__player]->Earn(-100);
         } else if(key < 15) {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
-                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Move((10 - loc + 40) % 40);
                 player[__player]->Imprison();
             } else {
             }
@@ -179,7 +179,7 @@ void Map::Move(int __player, int __step) {
             player[__player]->Move((21 - loc + 40) % 40);
         } else {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
-                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Move((10 - loc + 40) % 40);
                 player[__player]->Imprison();
             } else {
             }

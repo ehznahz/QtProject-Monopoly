@@ -251,10 +251,10 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                     gridLayout->addWidget(new QLabel("建筑"), 2, 0, 1, 1);
                     auto spinBuild = new stylizedspinbox(0, 3);
                     gridLayout->addWidget(spinBuild, 2, 1, 1, 1);
-                    gridLayout->addWidget(new QLabel("免除"), 3, 0, 1, 1);
+                    gridLayout->addWidget(new QLabel("逃脱"), 3, 0, 1, 1);
                     auto spinEscape = new stylizedspinbox(0, 3);
                     gridLayout->addWidget(spinEscape, 3, 1, 1, 1);
-                    gridLayout->addWidget(new QLabel("收入"), 4, 0, 1, 1);
+                    gridLayout->addWidget(new QLabel("减租"), 4, 0, 1, 1);
                     auto spinRent = new stylizedspinbox(0, 3);
                     gridLayout->addWidget(spinRent, 4, 1, 1, 1);
                     auto tips = new QLabel("每个玩家具有10点的初始点数，每个属性的1-3等级分别消耗1、3、6点数，级别越高属性越强。");

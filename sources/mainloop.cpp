@@ -48,9 +48,7 @@ void mainloop::paintEvent(QPaintEvent *) {
 }
 
 void mainloop::gamestart() {
-    int current = -2;
-    //
-    //map.player[0]->Earn(-1600);
+    int current = 0;
     //初始化地块按钮
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
@@ -234,39 +232,7 @@ void mainloop::gamestart() {
     });
     connect(&map, &Map::BuyOrNot, this, &mainloop::Buy);
 
-    //决定起家
-    {
-        bool winner[6] = {1, 1, 1, 1, 1, 1};
-        int weight[6] = {0, 0, 0, 0, 0, 0};
-        for(int existplayer = map.playerNumber; existplayer > 1; ) {
-            int maxnum = 0;
-            for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) {
-                int key;
-
-                QEventLoop* el = new QEventLoop;
-                stylizedButton* Btn = new stylizedButton("掷骰子", 100, 30);
-                Btn->setParent(this);
-                Btn->move(500, 250);
-                Btn->show();
-                connect(Btn, &stylizedButton::pressed, this, [=, &key]() {
-                    Btn->setDisabled(true);
-                    dice->show();
-                    key = dice->roll();
-                    el->exit();
-                });
-                el->exec();
-                delete Btn;
-
-                weight[i] = key / 10 + key % 10;
-                if(weight[i] > maxnum) maxnum = weight[i];
-            }
-            for(int i = 0; i < map.playerNumber; ++i) if(winner[i] && weight[i] < maxnum) {
-                winner[i] = 0;
-                --existplayer;
-            }
-        }
-        for(int i = 0; i < map.playerNumber; ++i) if(winner[i]) current = i;
-    }
+   
     for(; ; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
         QEventLoop* el = new QEventLoop;
