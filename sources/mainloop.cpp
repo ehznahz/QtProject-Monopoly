@@ -27,6 +27,48 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     pView->setParent(this);
     pView->move(1080,20);
     pView->show();
+    eView = new eventView();
+    eView->setParent(this);
+    eView->move(1080,400);
+    eView->show();
+
+    stylizedButton* close = new stylizedButton( 40, 40,":/resources/image/icons/close.png");
+    close->setParent(this);
+    close->move(1500, 50);
+    close->show();
+    connect(close,&stylizedButton::clicked,this,[=](){
+        QWidget* pop = new QWidget();
+        pop->setObjectName("quitWidget");
+        pop->setStyleSheet("QWidget#quitWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
+        pop->setParent(this->parentWidget());
+        pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+        pop->setFixedSize(1600,900);
+        pop->move(0,0);
+        //按钮
+        stylizedButton* confirm = new stylizedButton("确定",230,50);
+        confirm->setParent(pop);
+        confirm->move(pop->width()*0.5+20,550);
+        connect(confirm,&stylizedButton::clicked,this,[=](){
+            pop->close();
+            emit Quit();
+        });
+        stylizedButton* cancel = new stylizedButton("取消",230,50);
+        cancel->setParent(pop);
+        cancel->move(this->width()*0.5-250,550);
+        connect(cancel,&stylizedButton::clicked,pop,[=](){
+            pop->close();
+        });
+        //文字
+        QLabel *text = new QLabel();
+        text->setParent(pop);
+        text->setText("确定要返回首页吗?");
+        text->setFont(QFont("Noto Sans SC",25,700));
+        text->setGeometry(this->width()*0.5-250,this->height()*0.4-25,500,50);
+        text->setAlignment(Qt::AlignCenter);
+        text->setStyleSheet("QLabel{color:white;}");
+        text->show();
+        pop->show();
+    });
 }
 void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, bool _pointEnabled) {
     for(int i=0;i<playerCount;++i){
@@ -43,10 +85,11 @@ void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, 
     map.playerNumber=playerCount;
     roundLimit = _roundLimit;
     pointEnabled = _pointEnabled;
-    //TODO display
     Block::players = &map.player[0];
     pView->init(map.player,playerCount);
     pView->setFocus(0);
+    eView->clear();
+    map.eView=eView;
 }
 
 void mainloop::paintEvent(QPaintEvent *) {
@@ -58,7 +101,8 @@ void mainloop::paintEvent(QPaintEvent *) {
 }
 
 void mainloop::gameStart() {
-    int current = 0, existplayer = map.playerNumber;
+    map.existPlayer=map.playerNumber;
+    int current = 0;
     //初始化地块按钮
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
@@ -75,7 +119,7 @@ void mainloop::gameStart() {
     BtnTrading->move(1245, 350);
     BtnTrading->show();
 
-    connect(BtnBankrupt, &stylizedButton::pressed, this, [=, &current, &existplayer]() {
+    connect(BtnBankrupt, &stylizedButton::pressed, this, [=, &current]() {
         QWidget* pop = new QWidget();
         pop->setObjectName("bankruptWidget");
         pop->setStyleSheet("QWidget#bankruptWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
@@ -87,10 +131,10 @@ void mainloop::gameStart() {
         stylizedButton* confirm = new stylizedButton("确定",230,50);
         confirm->setParent(pop);
         confirm->move(pop->width()*0.5+20,550);
-        connect(confirm,&stylizedButton::clicked,this,[=,&existplayer]() {
+        connect(confirm,&stylizedButton::clicked,this,[=]() {
             int loc = map.player[current]->Location();
             map.Bankrupt(current);
-            --existplayer;
+            --map.existPlayer;
             map.block[loc]->layout()->removeWidget(&map.player[current]->symbol);
             map.player[current]->symbol.setParent(nullptr);
             pView->setBankrupt(current);
@@ -112,15 +156,15 @@ void mainloop::gameStart() {
         text->setStyleSheet("QLabel{color:white;}");
         text->show();
         pop->show();
-
     });
     connect(BtnTrading,&stylizedButton::pressed,this,[&current, this](){
         TradingSelect(current);
     });
     connect(&map, &Map::BuyOrNot, this, &mainloop::Buy);
 
-    for(; existplayer > 1; current = (current + 1) % map.playerNumber) {
+    for(; map.existPlayer > 1; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
+        BtnBankrupt->setDisabled(true);
         pView->setFocus(current);
         QEventLoop* el = new QEventLoop;
         if(map.player[current]->Active() < 0) {
@@ -135,11 +179,15 @@ void mainloop::gameStart() {
             connect(BtnA, &stylizedButton::pressed, this, [=]() {
                 for(; map.player[current]->Active() < 0; map.player[current]->Wait());
                 pView->setPrison(current, false);
+                eView->addEvent(map.player[current]->getName()+" 支付￥50出小黑屋",0);
                 el->exit();
             });
             connect(BtnB, &stylizedButton::pressed, this, [=]() {
                 map.player[current]->Wait();
-                if(map.player[current]->Active()>=0)pView->setPrison(current, false);
+                if(map.player[current]->Active()>=0){
+                    pView->setPrison(current, false);
+                    eView->addEvent(map.player[current]->getName()+" 出小黑屋",0);
+                }
                 el->exit();
             });
             el->exec();
@@ -167,6 +215,7 @@ void mainloop::gameStart() {
         if(map.player[current]->Active()<0){
             pView->setPrison(current, true);
         }
+        BtnBankrupt->setEnabled(true);
 
         stylizedButton* BtnB = new stylizedButton("结束回合", 200, 40);
         BtnB->setParent(this);
@@ -177,12 +226,53 @@ void mainloop::gameStart() {
             BtnB->setDisabled(true);
             el->exit();
         });
-
         el->exec();
         delete BtnB;
         delete el;
     }
+
+    if(map.existPlayer==1){
+        int winner;
+        for(int i=0;i<map.playerNumber;++i){
+            if(map.player[i]->Alive()){
+                winner = i;
+                break;
+            }
+        }
+        QWidget* pop = new QWidget();
+        pop->setObjectName("quitWidget");
+        pop->setStyleSheet("QWidget#quitWidget{border-image:url(:/resources/image/icons/podium.png) 0 0 0 0 stretch stretch}");
+        pop->setParent(this->parentWidget());
+        pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+        pop->setFixedSize(1600,900);
+        pop->move(0,0);
+        //按钮
+        stylizedButton* confirm = new stylizedButton("返回主页",300,50);
+        confirm->setParent(pop);
+        confirm->move(650,650);
+        connect(confirm,&stylizedButton::clicked,this,[=](){
+            pop->close();
+            emit Quit();
+        });
+        //文字
+        QLabel *text = new QLabel();
+        text->setParent(pop);
+        text->setText("恭喜 "+map.player[winner]->getName()+" 成为了赢家!");
+        text->setFont(QFont("Noto Sans SC",30,700));
+        text->setGeometry(800-250,200-25,500,50);
+        text->setAlignment(Qt::AlignCenter);
+        text->setStyleSheet("QLabel{color:white;}");
+        text->show();
+
+        playerSymbol* winnerSymbol = new playerSymbol(map.player[winner]->symbol.getColor(),0,120,120);
+        winnerSymbol->setParent(pop);
+        winnerSymbol->move(740,300);
+        winnerSymbol->show();
+        pop->show();
+    }
+    emit Quit();
 }
+
 void mainloop::TradingSelect(int currentPlayer) {
     QWidget* tradingView = new QWidget;
     tradingView->setParent(this->parentWidget());
@@ -191,6 +281,13 @@ void mainloop::TradingSelect(int currentPlayer) {
     tradingView->setObjectName("tradingView");
     tradingView->setStyleSheet("QWidget#tradingView{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}"
                                "QLabel{color:white}");
+    stylizedButton* close = new stylizedButton( 40, 40,":/resources/image/icons/close.png");
+    close->setParent(tradingView);
+    close->move(1400, 50);
+    close->show();
+    connect(close, &stylizedButton::clicked, this, [=]() {
+        tradingView->close();
+    });
     QGridLayout* layout = new QGridLayout();
     tradingView->setLayout(layout);
     layout->setAlignment(Qt::AlignCenter);
@@ -219,6 +316,7 @@ void mainloop::TradingWith(int currentPlayer,int targetPlayer) {
     tradingView->setParent(this->parentWidget());
     tradingView->setGeometry(0,0,1600,900);
     tradingView->show();
+
     tradingView->setObjectName("tradingView");
     tradingView->setStyleSheet("QWidget#tradingView{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}"
                                "QLabel{color:white}");
@@ -433,7 +531,8 @@ void mainloop::blockOp(int current, int _block) {
     QLabel *title = new QLabel("基本信息");
     title->setFont(QFont("Noto Sans SC", 22, 700));
     title->setAlignment(Qt::AlignCenter);
-    title->setStyleSheet("QLabel{color:white;}");
+    title->setStyleSheet("QLabel{color:white;"
+                         "background-color:#18101e;}");
     textView->layout()->addWidget(title);
     text->setParent(pop);
     if(map.block[_block]->Type() == "Property") {
@@ -479,14 +578,17 @@ void mainloop::blockOp(int current, int _block) {
     text->setFont(QFont("Noto Sans SC", 16, 500));
     text->setMargin(10);
     text->setAlignment(Qt::AlignCenter);
-    text->setStyleSheet("QLabel{color:white;}");
+    text->setStyleSheet("QLabel{color:white;"
+                        "background-color:#18101e;}");
     textView->layout()->addWidget(text);
     qLayout->addWidget(textView,0,0,1,2);
-    textView->setStyleSheet("border:2px solid white");
+    textView->setStyleSheet("border:2px solid white;"
+                            "background-color:white;"
+                            );
 
-    stylizedButton* close = new stylizedButton("返回", 200, 50);
+    stylizedButton* close = new stylizedButton( 40, 40,":/resources/image/icons/close.png");
     close->setParent(pop);
-    close->move(1300, 800);
+    close->move(1400, 50);
     close->show();
     connect(close, &stylizedButton::clicked, this, [=]() {
         pop->close();
@@ -518,12 +620,6 @@ void mainloop::blockOp(int current, int _block) {
     stylizedButton* buy = new stylizedButton("买房", 200, 50);
     qLayout->addWidget(buy,3,0,1,1);
     buy->show();
-    if(map.block[_block]->Type() != "Property") buy->setDisabled(true), qDebug() << "000";
-    else if(map.block[_block]->Owner() != current) buy->setDisabled(true), qDebug() << "111";
-    else if(!map.block[_block]->United()) buy->setDisabled(true), qDebug() << "222";
-    else if(map.block[_block]->Mortgaged()) buy->setDisabled(true), qDebug() << "333";
-    else if(map.block[_block]->House() == 5) buy->setDisabled(true), qDebug() << "444";
-    else buy->setEnabled(true), qDebug() << "555";
     connect(buy, &stylizedButton::clicked, this, [=]() {
         map.Build(current, _block);
         pop->close();

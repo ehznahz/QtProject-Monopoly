@@ -1,6 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
-
+#include "headers/eventview.h"
 #include "headers/block.h"
 class Map : public QWidget
 {
@@ -8,7 +8,8 @@ class Map : public QWidget
     Block* block[40];
     Player* player[6];
     int playerNumber;
-
+    eventView* eView;
+    int existPlayer;
 public:
     friend class mainloop;
     Map();
@@ -20,6 +21,7 @@ public:
     void Redeem(int, int);
     void Build(int, int);
     void Sell(int, int);
+    void MoveSymbol(int,int,int);
 
 signals:
     void BuyOrNot(int, int);

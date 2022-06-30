@@ -26,16 +26,22 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
     connect(newMenu,&startMenu::beginClicked,this,[=](){
         newMenu->hide();
         initMenu->show();
-        //游戏mainloop
     });
 
-    mainloop* mainLoop = new mainloop(this);
-    mainLoop->hide();
+    connect(initMenu,&gameInitial::returnMainPage,this,[=](){
+        initMenu->hide();
+        newMenu->show();
+    });
 
     connect(initMenu,&gameInitial::gameStarted,this,[=](QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled){
+        mainloop* mainLoop = new mainloop(this);
         initMenu->hide();
         mainLoop->reset(std::move(_player),playerCount,roundLimit,pointEnabled);
         mainLoop->show();
+        connect(mainLoop,&mainloop::Quit,this,[=]{
+            mainLoop->close();
+            newMenu->show();
+        });
         mainLoop->gameStart();
     });
 

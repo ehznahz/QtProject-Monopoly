@@ -5,6 +5,7 @@
 #include "headers/map.h"
 #include "headers/dice.h"
 #include "headers/playerview.h"
+#include "headers/eventview.h"
 class mainloop : public QWidget
 {
     Q_OBJECT
@@ -13,7 +14,7 @@ class mainloop : public QWidget
     Map map;
     Dice* dice;
     playerView* pView;
-
+    eventView* eView;
 public:
     explicit mainloop(QWidget* parent = nullptr);
     void reset(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);

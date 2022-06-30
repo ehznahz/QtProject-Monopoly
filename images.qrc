@@ -57,5 +57,7 @@
         <file>resources/image/map/start2.png</file>
         <file>resources/image/map/park.png</file>
         <file>resources/image/map/denied.png</file>
+        <file>resources/image/icons/close.png</file>
+        <file>resources/image/icons/podium.png</file>
     </qresource>
 </RCC>

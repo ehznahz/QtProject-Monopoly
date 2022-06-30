@@ -4,9 +4,6 @@
 #include "QWidget"
 #include "QAbstractButton"
 
-//TODO onHoverInGame
-//TODO activeStyle
-
 class playerSymbol:public QAbstractButton{
     Q_OBJECT
 private:

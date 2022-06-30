@@ -25,7 +25,6 @@ bool eventWatcher::eventFilter(QObject * watched, QEvent * event)
     //hover
     if(event->type()==QEvent::Enter){
         if(button->isCheckable()&&button->isChecked()&&button->checkedPix==nullptr)return false;
-        //qDebug()<<"Hover In";
         if(button->hoverPix==nullptr){
             QGraphicsDropShadowEffect* effect = new QGraphicsDropShadowEffect();
             effect->setColor(QColor(150,150,150,100));
@@ -40,7 +39,6 @@ bool eventWatcher::eventFilter(QObject * watched, QEvent * event)
 
     if (event->type() == QEvent::Leave){
         if(button->isCheckable()&&button->isChecked()&&button->checkedPix==nullptr)return false;
-        //qDebug()<<"Hover Leave";
         if(button->hoverPix==nullptr)delete button->graphicsEffect();
         else{
             button->setIcon(*(button->origPix));

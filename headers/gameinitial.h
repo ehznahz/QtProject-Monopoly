@@ -20,6 +20,7 @@ public:
 
 signals:
     void gameStarted(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
+    void returnMainPage();
 };
 
 #endif // GAMEINITIAL_H

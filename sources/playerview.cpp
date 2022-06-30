@@ -51,7 +51,6 @@ void playerView::init(Player **_nPlayers, int _playerCnt) {
         auto money = new QLabel("￥"+QString::number(m_player[i]->Money()));
         money->setFont(QFont("Noto Sans SC",14,500));
         m_innerLayout->addWidget(money,1,Qt::AlignBaseline|Qt::AlignRight);
-        qDebug()<<m_innerLayout->indexOf(money);
     }
 }
 

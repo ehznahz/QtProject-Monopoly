@@ -41,7 +41,6 @@ void CardLayout::setGeometry(const QRect &r) {
             QRect geom(r.x() + r.width() / 2 - o->widget()->width() / 2, r.y() + i * spacing(), o->widget()->width(), h);
             o->setGeometry(geom);
         } else {
-            qDebug() << o->widget()->height();
             QRect geom(r.x() + r.width() / 2 - w / 2 + i * spacing(), r.y() + r.height() / 2 - o->widget()->height() / 2, o->widget()->width(), o->widget()->height());
             o->setGeometry(geom);
         }
@@ -52,8 +51,6 @@ void CardLayout::setGeometry(const QRect &r) {
 QSize CardLayout::sizeHint() const {
     QSize s(0, 0);
     int n = m_items.count();
-    //if (n > 0)
-    // s = QSize(35, 35);//start with a nice default size
     int i = 0;
     while (i < n) {
         QLayoutItem *o = m_items.at(i);

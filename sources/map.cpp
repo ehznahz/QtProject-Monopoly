@@ -12,7 +12,6 @@ Map::Map() {
     qPalette.setColor(QPalette::Window,QColor(0x18101e));
     this->setPalette(qPalette);
     this->setAutoFillBackground(true);
-    //FIXME 透明属性
     //地图初始化
     block[0] = new Block("出发!", "停留于起点，多获得￥200", "START", -1, 0, 0, 0, 0, 0);
     block[1] = new Block("朗润园", "￥60", "Property", 1, 60, 50, 2, 1, 0);
@@ -82,38 +81,39 @@ Map::Map() {
 
 void Map::Move(int __player, int __step) {
     int origLoc = player[__player]->Location();
-    block[origLoc]->layout()->removeWidget(&player[__player]->symbol);
     player[__player]->Move(__step);
     int loc = player[__player]->Location();
-    player[__player]->symbol.setDirection(((loc/10)+1)%4);
-    player[__player]->symbol.setParent(nullptr);
-    block[loc]->layout()->addWidget(&player[__player]->symbol);
-    if (loc < __step) player[__player]->Earn(200);
+    MoveSymbol(__player,origLoc,loc);
+    if (loc < __step){
+        if(loc!=0)eView->addEvent(player[__player]->getName()+" 经过起点,获得 ￥200",0);
+        player[__player]->Earn(200);
+    }
     //判断行动
     if (block[loc]->Type() == "START") {
+        if(loc!=0)eView->addEvent(player[__player]->getName()+" 到达起点,获得 ￥400",0);
         player[__player]->Earn(200);
     } else if (block[loc]->Type() == "Jail") {
     } else if (block[loc]->Type() == "Free Parking") {
     } else if (block[loc]->Type() == "Go To Jail") {
         if(rand() % 32768 > player[__player]->EscapeRate() * 32768){
+            eView->addEvent(player[__player]->getName()+" 不幸在树洞被禁言两回合",0);
             player[__player]->Imprison();
             player[__player]->Move(20);
-            block[loc]->layout()->removeWidget(&player[__player]->symbol);
-            loc = player[__player]->Location();
-            player[__player]->symbol.setDirection(((loc/10)+1)%4);
-            player[__player]->symbol.setParent(nullptr);
-            block[loc]->layout()->addWidget(&player[__player]->symbol);
+            MoveSymbol(__player,loc,player[__player]->Location());
         }
         else {
-            //TODO display
+            eView->addEvent(player[__player]->getName()+" 人品大爆发,被枪口抬高两寸,无需禁言",0);
         }
     } else if (block[loc]->Type() == "Tax") {
         player[__player]->Earn(-block[loc]->Rent());
+        eView->addEvent(player[__player]->getName()+" "+block[loc]->Action(),0);
     } else if (block[loc]->Type() == "Property") {
         if (block[loc]->Owner() == -1) {
             emit BuyOrNot(__player, loc);
         } else if (block[loc]->Owner() != __player) {
             player[__player]->Earn(-int(block[loc]->Rent() * player[__player]->RentRate()));
+            player[block[loc]->Owner()]->Earn(int(block[loc]->Rent() * player[__player]->RentRate()));
+            eView->addEvent(player[__player]->getName()+" 在 "+block[loc]->getName()+" 向 "+player[block[loc]->Owner()]->getName()+" 支付了 ￥"+QString::number(int(block[loc]->Rent() * player[__player]->RentRate())),0);
         }
     } else if (block[loc]->Type() == "Railroad") {
         if (block[loc]->Owner() == -1) {
@@ -123,6 +123,8 @@ void Map::Move(int __player, int __step) {
             for (int i = (loc + 10) % 40; i != loc; i = (i + 10) % 40)
                 if (block[i]->Owner() == block[loc]->Owner()) cost <<= 1;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
+            player[block[loc]->Owner()]->Earn(int(cost * player[__player]->RentRate()));
+            eView->addEvent(player[__player]->getName()+" 在 "+block[loc]->getName()+" 向 "+player[block[loc]->Owner()]->getName()+" 支付了 ￥"+QString::number(int(cost * player[__player]->RentRate())),0);
         }
     } else if (block[loc]->Type() == "Utility") {
         if (block[loc]->Owner() == -1) {
@@ -132,71 +134,92 @@ void Map::Move(int __player, int __step) {
             if (block[40 - loc]->Owner() == block[loc]->Owner()) cost *= 10;
             else cost *= 4;
             player[__player]->Earn(-int(cost * player[__player]->RentRate()));
+            player[block[loc]->Owner()]->Earn(int(cost * player[__player]->RentRate()));
+            eView->addEvent(player[__player]->getName()+" 在 "+block[loc]->getName()+" 向 "+player[block[loc]->Owner()]->getName()+" 支付了 ￥"+QString::number(int(cost * player[__player]->RentRate())),0);
         }
     } else if (block[loc]->Type() == "Community Chest") {
-        //TODO display
         int key = rand() % 16 - player[__player]->LuckyRate() * 16;
         if(key < 1) {
-           player[__player]->Move((-loc + 40) % 40);
+            player[__player]->Move((-loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 脚一滑,回到了原点",2);
+            MoveSymbol(__player,loc,0);
         } else if(key < 4) {
-            player[__player]->Earn(50);
+            player[__player]->Earn(60);
+            eView->addEvent(player[__player]->getName()+" 获得每月餐补 ￥60",2);
         } else if(key < 7) {
             int num = 0;
             for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
             player[__player]->Earn(10 * num);
+            eView->addEvent(player[__player]->getName()+" 过生日,从每个人收取了 ￥10",2);
         } else if(key < 10) {
             int num = 0;
             for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
             player[__player]->Earn(-20 * num);
+            eView->addEvent(player[__player]->getName()+" 请在场的各位喝奶茶,各花费 ￥20",2);
         } else if(key < 13) {
             player[__player]->Earn(-100);
+            eView->addEvent(player[__player]->getName()+" 手机坏了,维修花费 ￥100",2);
         } else if(key < 15) {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
                 player[__player]->Move((10 - loc + 40) % 40);
+                eView->addEvent(player[__player]->getName()+" 不幸在树洞被禁言两回合",2);
                 player[__player]->Imprison();
-                block[loc]->layout()->removeWidget(&player[__player]->symbol);
-                loc = player[__player]->Location();
-                player[__player]->symbol.setDirection(((loc/10)+1)%4);
-                player[__player]->symbol.setParent(nullptr);
-                block[loc]->layout()->addWidget(&player[__player]->symbol);
+                MoveSymbol(__player,loc,player[__player]->Location());
             } else {
+                eView->addEvent(player[__player]->getName()+" 人品大爆发,被枪口抬高两寸,无需禁言",2);
             }
         } else {
             int price = 0;
             for(int i = 0; i < 40; ++i) if(block[i]->Owner() == __player) price += block[i]->House() * 50;
             player[__player]->Earn(-price);
+            eView->addEvent(player[__player]->getName()+" 的房产需要缴纳物业费,每个地块 ￥50",2);
         }
     } else if (block[loc]->Type() == "Chance") {
-        //TODO display
         int key = rand() % 16 - player[__player]->LuckyRate() * 16;
         if(key < 1) {
             player[__player]->Move((-loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 回到了起点",1);
+            MoveSymbol(__player,loc,0);
         } else if(key < 2) {
             player[__player]->Move((5 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往北京大学东门站",1);
+            MoveSymbol(__player,loc,5);
         } else if(key < 3) {
             player[__player]->Move((15 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往人民大学站",1);
+            MoveSymbol(__player,loc,15);
         } else if(key < 4) {
             player[__player]->Move((25 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往海淀黄庄站",1);
+            MoveSymbol(__player,loc,25);
         } else if(key < 5) {
             player[__player]->Move((35 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往圆明园站",1);
+            MoveSymbol(__player,loc,35);
         } else if(key < 7) {
             player[__player]->Move(3);
+            eView->addEvent(player[__player]->getName()+" 向前三步",1);
+            MoveSymbol(__player,loc,(loc+3)%40);
         } else if(key < 9) {
             player[__player]->Move(-3);
+            eView->addEvent(player[__player]->getName()+" 向后三步",1);
+            MoveSymbol(__player,loc,(loc-3+40)%40);
         } else if(key < 11) {
             player[__player]->Move((39 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往二体",1);
+            MoveSymbol(__player,loc,39);
         } else if(key < 13) {
             player[__player]->Move((21 - loc + 40) % 40);
+            eView->addEvent(player[__player]->getName()+" 前往理科二号楼",1);
+            MoveSymbol(__player,loc,21);
         } else {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
                 player[__player]->Move((10 - loc + 40) % 40);
+                eView->addEvent(player[__player]->getName()+" 不幸在树洞被禁言两回合",1);
                 player[__player]->Imprison();
-                block[loc]->layout()->removeWidget(&player[__player]->symbol);
-                loc = player[__player]->Location();
-                player[__player]->symbol.setDirection(((loc/10)+1)%4);
-                player[__player]->symbol.setParent(nullptr);
-                block[loc]->layout()->addWidget(&player[__player]->symbol);
+                MoveSymbol(__player,loc,player[__player]->Location());
             } else {
+                eView->addEvent(player[__player]->getName()+" 不幸在树洞被禁言两回合",1);
             }
         }
     }
@@ -247,4 +270,10 @@ void Map::Sell(int __player, int __block) {
 void Map::Build(int __player, int __block) {
     player[__player]->Earn(-int(block[__block]->Price1() * player[__player]->BuildRate()));
     block[__block]->Build();
+}
+void Map::MoveSymbol(int _player, int from, int to) {
+    block[from]->layout()->removeWidget(&player[_player]->symbol);
+    player[_player]->symbol.setDirection(((to/10)+1)%4);
+    player[_player]->symbol.setParent(nullptr);
+    block[to]->layout()->addWidget(&player[_player]->symbol);
 }

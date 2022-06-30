@@ -33,7 +33,6 @@ stylizedButton::stylizedButton(QString text,int _width,int _height):QPushButton(
 }
 
 stylizedButton::stylizedButton(int _width,int _height, QString origImg, QString pressedImg, QString hoverImg,QString checkedImg){
-// TODO 处理图片按钮的 disabled 状态
     QPixmap *pix= new QPixmap(origImg);
     if(_width==-1)_width=pix->width();
     if(_height==-1)_height=pix->height();

@@ -25,19 +25,25 @@ std::map<int, bool> availableColor = {
         {0xc0c0c0, false}};
 
 QString defaultName[6] = {"Alice", "Bob", "Carol", "Dave", "Eve", "Francis"};
-double rates[4][4] = {{1.0,1.05,1.1,1.2},
-                      {1.0,1.05,1.1,1.2},
-                      {1.0,1.05,1.1,1.2},
-                      {1.0,1.05,1.1,1.2}};
+double rates[4][4] = {{1.0,1.1,1.21,1.33}, //lucky
+                      {1.0,0.9,0.81,0.6},  //build
+                      {1.0,1.1,1.21,1.33},  //esc
+                      {1.0,0.9,0.8,0.6}};  //rent
 int points[4] = {0,1,3,6};
 
 gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
     setFixedSize(1600, 900);
     playerSymbol *pSymbol[6];
     QLineEdit *nameInput[6];
+
+    stylizedButton* close = new stylizedButton( 40, 40,":/resources/image/icons/close.png");
+    close->setParent(this);
+    close->move(1500, 50);
+    close->show();
+    connect(close, &stylizedButton::pressed, this, &gameInitial::returnMainPage);
+
     stylizedspinbox *playerCount = new stylizedspinbox();
     stylizedspinbox *initMoney = new stylizedspinbox();
-    stylizedspinbox *roundLimit = new stylizedspinbox();
     stylizedButton *pointButton = new stylizedButton(28, 28, ":/resources/image/icons/unchecked.png", "", "", ":/resources/image/icons/checked.png");
     {
         offlineView = new QFrame(this);
@@ -163,15 +169,6 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                 initMoney->setFixedSize(120, 40);
             }
             {
-                auto tableMode = new QLabel("局数限制");
-                rightLayout->addWidget(tableMode, 3, 0, 1, 1);
-                rightLayout->addWidget(roundLimit, 3, 1, 1, 1);
-                roundLimit->setRange(25, 80);
-                roundLimit->setFixedSize(120, 40);
-                roundLimit->setSingleStep(5);
-                roundLimit->setSpecialValueText("无限");
-            }
-            {
                 auto tablePoint = new QLabel("点数系统");
                 rightLayout->addWidget(tablePoint, 4, 0, 1, 1);
                 pointButton->setCheckable(true);
@@ -287,7 +284,7 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
                     loop->exec();
                 }
             }
-            emit gameStarted(players, playCnt, (roundLimit->value() == 25) ? 0 : roundLimit->value(), pointButton->isChecked());
+            emit gameStarted(players, playCnt, 0, pointButton->isChecked());
         });
     }
     {
