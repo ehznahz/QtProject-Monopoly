@@ -3,15 +3,14 @@
 
 #include <QWidget>
 
-class startMenu : public QWidget
-{
-    Q_OBJECT
+class startMenu : public QWidget{
+Q_OBJECT
 public:
-    explicit startMenu(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent *);
+	explicit startMenu(QWidget *parent = nullptr);
+	void paintEvent(QPaintEvent *);
 
 signals:
-    void beginClicked(bool checked);
+	void beginClicked(bool checked);
 
 };
 

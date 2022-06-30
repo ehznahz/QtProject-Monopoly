@@ -3,14 +3,14 @@
 
 #include <QMainWindow>
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow{
+Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+	MainWindow(QWidget *parent = nullptr);
 
-    //重写initPainter
-    void initPainter(QPainter *)const;
+	//重写initPainter
+	void initPainter(QPainter *) const;
 };
+
 #endif // MAINWINDOW_H

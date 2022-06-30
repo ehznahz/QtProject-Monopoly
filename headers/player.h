@@ -1,11 +1,10 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <string>
 #include "QObject"
 #include "headers/playersymbol.h"
-class Player : public QObject
-{
+#include <string>
+class Player : public QObject {
     Q_OBJECT
     QString name;
     double lucky_rate;

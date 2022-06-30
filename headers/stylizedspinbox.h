@@ -1,13 +1,13 @@
 #ifndef STYLIZEDSPINBOX_H
 #define STYLIZEDSPINBOX_H
+
 #include "QSpinBox"
 
-class stylizedspinbox : public QSpinBox
-{
-    Q_OBJECT
+class stylizedspinbox : public QSpinBox{
+Q_OBJECT
 public:
-    stylizedspinbox();
-    stylizedspinbox(int a,int b);
+	stylizedspinbox();
+	stylizedspinbox(int a, int b);
 };
 
 

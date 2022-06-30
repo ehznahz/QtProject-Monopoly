@@ -5,12 +5,11 @@
 #include <QPushButton>
 #include <QEvent>
 
-class eventWatcher:public QObject
-{
-    Q_OBJECT
+class eventWatcher : public QObject{
+Q_OBJECT
 public:
-    eventWatcher(QObject * parent = Q_NULLPTR);
-    virtual bool eventFilter(QObject * watched, QEvent * event) Q_DECL_OVERRIDE;
+	eventWatcher(QObject *parent = Q_NULLPTR);
+	virtual bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
 };
 
 #endif // EVENTWATCHER_H

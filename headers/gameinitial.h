@@ -5,22 +5,21 @@
 #include "QFrame"
 #include "headers/player.h"
 
-class gameInitial : public QWidget
-{
-    Q_OBJECT
+class gameInitial : public QWidget{
+Q_OBJECT
 
-    QFrame* onlineView= nullptr;
-    QFrame* offlineView= nullptr;
+	QFrame *onlineView = nullptr;
+	QFrame *offlineView = nullptr;
 
 public:
-    void switchView(int);
-    explicit gameInitial(QWidget *parent = nullptr);
-    void paintEvent(QPaintEvent*) override;
+	void switchView(int);
+	explicit gameInitial(QWidget *parent = nullptr);
+	void paintEvent(QPaintEvent *) override;
 
 
 signals:
-    void gameStarted(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
-    void returnMainPage();
+	void gameStarted(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
+	void returnMainPage();
 };
 
 #endif // GAMEINITIAL_H

@@ -7,20 +7,20 @@
 #include "headers/playersymbol.h"
 #include "QVBoxLayout"
 
-class playerView :public QFrame{
-    Q_OBJECT
-    static Player** m_player;
-    playerSymbol* m_playerSymbol[6];
-    QVBoxLayout* m_layout;
-    int playerCnt;
-    int currentFocus = 0;
+class playerView : public QFrame{
+Q_OBJECT
+	static Player **m_player;
+	playerSymbol *m_playerSymbol[6];
+	QVBoxLayout *m_layout;
+	int playerCnt;
+	int currentFocus = 0;
 public:
-    playerView();
-    void init(Player** _nPlayers,int playerCnt);
-    void setFocus(int _currentPlayer);
-    void setPrison(int _currentPlayer,bool s);
-    void setBankrupt(int _currentPlayer);
-    void updateMoney(int i);
+	playerView();
+	void init(Player **_nPlayers, int playerCnt);
+	void setFocus(int _currentPlayer);
+	void setPrison(int _currentPlayer, bool s);
+	void setBankrupt(int _currentPlayer);
+	void updateMoney(int i);
 };
 
 
