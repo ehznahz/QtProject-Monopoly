@@ -130,6 +130,10 @@ void Block::paintEvent(QPaintEvent *) {
                 painter.setPen(QColor(0,0,0,255));
                 painter.drawText(3,0,QWidget::width()-6,30,Qt::AlignCenter|Qt::TextWordWrap,QString::number(House()));
             }
+            else if(Mortgaged()){
+                painter.setPen(QColor(0,0,0,255));
+                painter.drawText(3,0,QWidget::width()-6,30,Qt::AlignCenter|Qt::TextWordWrap,"抵押中");
+            }
             if(type=="Railroad")painter.drawPixmap(21,72,QPixmap(":/resources/image/map/metro.png").scaled(30,30,Qt::KeepAspectRatio,Qt::SmoothTransformation));
         }
         if(direction==1){
@@ -151,6 +155,10 @@ void Block::paintEvent(QPaintEvent *) {
                 painter.setPen(QColor(0,0,0,255));
                 painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,QString::number(House()));
             }
+            else if(Mortgaged()){
+                painter.setPen(QColor(0,0,0,255));
+                painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,"抵押中");
+            }
         }
         if(direction==2){
             if(type=="Property")painter.drawRoundedRect(0,0,QWidget::width(),30,5,5);
@@ -167,6 +175,10 @@ void Block::paintEvent(QPaintEvent *) {
             else if(Owner()>=0&&House()>=1){
                 painter.setPen(QColor(0,0,0,255));
                 painter.drawText(5,QWidget::height()-30,QWidget::width()-10,30,Qt::AlignCenter|Qt::TextWordWrap,QString::number(House()));
+            }
+            else if(Mortgaged()){
+                painter.setPen(QColor(0,0,0,255));
+                painter.drawText(5,QWidget::height()-30,QWidget::width()-10,30,Qt::AlignCenter|Qt::TextWordWrap,"抵押中");
             }
             if(type=="Railroad")painter.drawPixmap(21,7,QPixmap(":/resources/image/map/metro.png").scaled(30,30,Qt::KeepAspectRatio,Qt::SmoothTransformation));
         }
@@ -188,6 +200,10 @@ void Block::paintEvent(QPaintEvent *) {
             else if(Owner()>=0&&House()>=1){
                 painter.setPen(QColor(0,0,0,255));
                 painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,QString::number(House()));
+            }
+            else if(Mortgaged()){
+                painter.setPen(QColor(0,0,0,255));
+                painter.drawText(5,QWidget::width()-30,QWidget::height()-10,30,Qt::AlignCenter|Qt::TextWordWrap,"抵押中");
             }
         }
         painter.restore();
@@ -232,7 +248,7 @@ void Block::paintEvent(QPaintEvent *) {
         painter.drawText(3,40,QWidget::width()-6,QWidget::height()-60,Qt::AlignCenter|Qt::TextWordWrap,name);
         painter.setFont(QFont("Noto Sans SC",10,700));
         painter.setPen(QColor(255,255,255,235));
-        painter.drawText(3,64,QWidget::width()-6,QWidget::height()-70,Qt::AlignCenter|Qt::TextWordWrap,"￥100");
+        painter.drawText(3,64,QWidget::width()-6,QWidget::height()-70,Qt::AlignCenter|Qt::TextWordWrap,"￥200");
         painter.drawPixmap(16,10,QPixmap(":/resources/image/map/power.png").scaled(40,40,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     }
     if(name=="餐饮中心"){

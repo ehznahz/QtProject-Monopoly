@@ -9,6 +9,7 @@
 #include "QEventLoop"
 #include "QVBoxLayout"
 #include "headers/cardview.h"
+#include "headers/playerview.h"
 #include "QSlider"
 #include "set"
 
@@ -20,8 +21,12 @@ mainloop::mainloop(QWidget *parent): QWidget(parent) {
     map.show();
     dice = new Dice();
     dice->setParent(this);
-    dice->move(520,280);
+    dice->move(530,320);
     dice->show();
+    pView = new playerView();
+    pView->setParent(this);
+    pView->move(1080,20);
+    pView->show();
 }
 void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, bool _pointEnabled) {
     for(int i=0;i<playerCount;++i){
@@ -31,12 +36,17 @@ void mainloop::reset(QList<Player *> _player, int playerCount, int _roundLimit, 
         map.player[i]->symbol.setDirection(1);
         ((CardLayout*)(map.block[0]->layout()))->addWidget(&(map.player[i]->symbol));
         map.player[i]->symbol.show();
+        connect(map.player[i],&Player::moneyChanged,pView,[=](){
+            pView->updateMoney(i);
+        });
     }
     map.playerNumber=playerCount;
     roundLimit = _roundLimit;
     pointEnabled = _pointEnabled;
     //TODO display
     Block::players = &map.player[0];
+    pView->init(map.player,playerCount);
+    pView->setFocus(0);
 }
 
 void mainloop::paintEvent(QPaintEvent *) {
@@ -47,148 +57,26 @@ void mainloop::paintEvent(QPaintEvent *) {
     painter.drawPixmap(0, 0, this->width(), this->height(), bk);
 }
 
+<<<<<<< HEAD
 void mainloop::gamestart() {
+=======
+void mainloop::gameStart() {
+>>>>>>> 1e5b73a058f207cd848213c0ee0f03ebd01b687b
     int current = 0;
     //初始化地块按钮
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
-            QWidget* pop = new QWidget();
-            pop->setObjectName("informWidget");
-            pop->setStyleSheet("QWidget#informWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
-            pop->setParent(this->parentWidget());
-            pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
-            pop->setFixedSize(1600, 900);
-            pop->move(0, 0);
-            pop->show();
-            QGridLayout* qLayout = new QGridLayout;
-            qLayout->setContentsMargins(300,100,300,100);
-            qLayout->setAlignment(Qt::AlignCenter);
-            pop->setLayout(qLayout);
-            QWidget* textView=new QWidget;
-            textView->setLayout(new QVBoxLayout);
-            QLabel *text = new QLabel();
-            QLabel *title = new QLabel("基本信息");
-            title->setFont(QFont("Noto Sans SC", 22, 700));
-            title->setAlignment(Qt::AlignCenter);
-            title->setStyleSheet("QLabel{color:white;}");
-            textView->layout()->addWidget(title);
-            text->setParent(pop);
-            if(map.block[i]->Type() == "Property") {
-                text->setText( "地块名称：" + map.block[i]->Name() + "\n"
-                              + map.block[i]->Action() + "\n"
-                              + "地租\n"
-                              + "拥有该地块：￥" + QString::number(map.block[i]->Price2()) + "\n"
-                              + "拥有整片同色地块：￥" + QString::number(map.block[i]->Price2() * 2) + "\n"
-                              + "拥有 1 座房：￥" + QString::number(map.block[i]->Price2() * 4) + "\n"
-                              + "拥有 2 座房：￥" + QString::number(map.block[i]->Price2() * 12) + "\n"
-                              + "拥有 3 座房：￥" + QString::number(map.block[i]->Price2() * 28) + "\n"
-                              + "拥有 4 座房：￥" + QString::number(map.block[i]->Price2() * 34) + "\n"
-                              + "拥有 5 座房：￥" + QString::number(map.block[i]->Price2() * 40) + "\n"
-                              + "买房：￥" + QString::number(map.block[i]->Price1()) + "    卖房：￥" + QString::number(map.block[i]->Price1() / 2) + "\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
-                );
-            }
-            else if(map.block[i]->Type() == "Railroad") {
-                text->setText(  "地块名称：" + map.block[i]->Name() + "\n"
-                              + map.block[i]->Action() + "\n"
-                              + "地租\n"
-                              + "拥有 1 个地铁站：￥25\n"
-                              + "拥有 2 个地铁站：￥50\n"
-                              + "拥有 3 个地铁站：￥100\n"
-                              + "拥有 4 个地铁站：￥200\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
-                );
-            }
-            else if(map.block[i]->Type() == "Utility") {
-                text->setText(  "地块名称：" + map.block[i]->Name() + "\n"
-                              + map.block[i]->Action() + "\n"
-                              + "地租\n"
-                              + "拥有 1 个公共设施：￥骰子点数 * 4\n"
-                              + "拥有 2 个公共设施：￥骰子点数 * 10\n"
-                              + "抵押：￥" + QString::number(int(map.block[i]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[i]->Price0() * 0.55))
-                );
-            }
-            else {
-                text->setText( "地块名称：" + map.block[i]->Name() + "\n"
-                              + map.block[i]->Action()
-                );
-            }
-            text->setFont(QFont("Noto Sans SC", 16, 500));
-            text->setMargin(10);
-            text->setAlignment(Qt::AlignCenter);
-            text->setStyleSheet("QLabel{color:white;}");
-            textView->layout()->addWidget(text);
-            qLayout->addWidget(textView,0,0,1,2);
-            textView->setStyleSheet("border:2px solid white");
-
-            stylizedButton* close = new stylizedButton("返回", 200, 50);
-            close->setParent(pop);
-            close->move(0, 0);
-            close->show();
-            connect(close, &stylizedButton::clicked, this, [=]() {
-                pop->close();
-            });
-
-            stylizedButton* mortgage = new stylizedButton("抵押", 200, 50);
-            qLayout->addWidget(mortgage,2,1,1,1);
-            mortgage->show();
-            if(map.block[i]->Owner() != current) mortgage->setDisabled(true);
-            else if(map.block[i]->Mortgaged()) mortgage->setDisabled(true);
-            else if(map.block[i]->House() > 0) mortgage->setDisabled(true);
-            else mortgage->setEnabled(true);
-            connect(mortgage, &stylizedButton::clicked, this, [=]() {
-                map.Mortgage(current, i);
-                pop->close();
-            });
-
-            stylizedButton* redeem = new stylizedButton("赎回", 200, 50);
-            qLayout->addWidget(redeem,2,0,1,1);
-            redeem->show();
-            if(map.block[i]->Owner() != current) redeem->setDisabled(true);
-            else if(!map.block[i]->Mortgaged()) redeem->setDisabled(true);
-            else redeem->setEnabled(true);
-            connect(redeem, &stylizedButton::clicked, this, [=]() {
-                map.Redeem(current, i);
-                pop->close();
-            });
-
-            stylizedButton* buy = new stylizedButton("买房", 200, 50);
-            qLayout->addWidget(buy,3,0,1,1);
-            buy->show();
-            if(map.block[i]->Type() != "Property") buy->setDisabled(true);
-            else if(map.block[i]->Owner() != current) buy->setDisabled(true);
-            else if(!map.block[i]->United()) buy->setDisabled(true);
-            else if(map.block[i]->Mortgaged()) buy->setDisabled(true);
-            else if(map.block[i]->House() == 5) buy->setDisabled(true);
-            else buy->setEnabled(true);
-            connect(buy, &stylizedButton::clicked, this, [=]() {
-                map.Build(current, i);
-                pop->close();
-            });
-
-            stylizedButton* sell = new stylizedButton("卖房", 200, 50);
-            qLayout->addWidget(sell,3,1,1,1);
-            sell->show();
-            if(map.block[i]->Type() != "Property") sell->setDisabled(true);
-            else if(map.block[i]->Owner() != current) sell->setDisabled(true);
-            else if(!map.block[i]->United()) sell->setDisabled(true);
-            else if(map.block[i]->Mortgaged()) sell->setDisabled(true);
-            else if(map.block[i]->House() == 0) sell->setDisabled(true);
-            else sell->setEnabled(true);
-            connect(sell, &stylizedButton::clicked, this, [=]() {
-                map.Sell(current, i);
-                pop->close();
-            });
+            blockOp(current,i);
         });
     }
     srand(time(0) + clock());
-    stylizedButton* BtnBankrupt = new stylizedButton("破产", 100, 40);
+    stylizedButton* BtnBankrupt = new stylizedButton("破产", 155, 40);
     BtnBankrupt->setParent(this);
-    BtnBankrupt->move(1200, 180);
+    BtnBankrupt->move(1080, 350);
     BtnBankrupt->show();
-    stylizedButton* BtnTrading = new stylizedButton("进行交易", 100, 40);
+    stylizedButton* BtnTrading = new stylizedButton("进行交易", 155, 40);
     BtnTrading->setParent(this);
-    BtnTrading->move(1200, 280);
+    BtnTrading->move(1245, 350);
     BtnTrading->show();
 
     connect(BtnBankrupt, &stylizedButton::pressed, this, [=, &current]() {
@@ -207,6 +95,9 @@ void mainloop::gamestart() {
             int loc = map.player[current]->Location();
             if(map.player[current]->Money() >= 0) map.Bankrupt(current, -1);
             else map.Bankrupt(current, map.block[loc]->Owner());
+            map.block[loc]->layout()->removeWidget(&map.player[current]->symbol);
+            map.player[current]->symbol.setParent(nullptr);
+            pView->setBankrupt(current);
             pop->close();
         });
         stylizedButton* cancel = new stylizedButton("取消",230,50);
@@ -232,25 +123,31 @@ void mainloop::gamestart() {
     });
     connect(&map, &Map::BuyOrNot, this, &mainloop::Buy);
 
+<<<<<<< HEAD
    
+=======
+>>>>>>> 1e5b73a058f207cd848213c0ee0f03ebd01b687b
     for(; ; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
+        pView->setFocus(current);
         QEventLoop* el = new QEventLoop;
         if(map.player[current]->Active() < 0) {
-            stylizedButton* BtnA = new stylizedButton("支付 ￥50 直接出小黑屋", 250, 30);
+            stylizedButton* BtnA = new stylizedButton("支付 ￥50 直接出小黑屋", 250, 40);
             BtnA->setParent(this);
-            BtnA->move(300, 200);
+            BtnA->move(505, 450);
             BtnA->show();
-            stylizedButton* BtnB = new stylizedButton("继续待着", 250, 30);
+            stylizedButton* BtnB = new stylizedButton("继续待着", 250, 40);
             BtnB->setParent(this);
-            BtnB->move(700, 200);
+            BtnB->move(505, 500);
             BtnB->show();
             connect(BtnA, &stylizedButton::pressed, this, [=]() {
                 for(; map.player[current]->Active() < 0; map.player[current]->Wait());
+                pView->setPrison(current, false);
                 el->exit();
             });
             connect(BtnB, &stylizedButton::pressed, this, [=]() {
                 map.player[current]->Wait();
+                if(map.player[current]->Active()>=0)pView->setPrison(current, false);
                 el->exit();
             });
             el->exec();
@@ -261,9 +158,9 @@ void mainloop::gamestart() {
         }
         int key, px, py;
 
-        stylizedButton* BtnA = new stylizedButton("掷骰子", 100, 30);
+        stylizedButton* BtnA = new stylizedButton("掷骰子", 200, 40);
         BtnA->setParent(this);
-        BtnA->move(500, 250);
+        BtnA->move(530, 500);
         BtnA->show();
         connect(BtnA, &stylizedButton::pressed, this, [=, &key]() {
             BtnA->setDisabled(true);
@@ -275,10 +172,13 @@ void mainloop::gamestart() {
         delete BtnA;
         px = key / 10, py = key % 10;
         map.Move(current, px + py);
+        if(map.player[current]->Active()<0){
+            pView->setPrison(current, true);
+        }
 
-        stylizedButton* BtnB = new stylizedButton("结束回合", 100, 30);
+        stylizedButton* BtnB = new stylizedButton("结束回合", 200, 40);
         BtnB->setParent(this);
-        BtnB->move(500, 250);
+        BtnB->move(530, 500);
         BtnB->show();
         connect(BtnB, &stylizedButton::pressed, this, [=]() {
             if(map.player[current]->Money() < 0) return;
@@ -334,7 +234,7 @@ void mainloop::TradingWith(int currentPlayer,int targetPlayer) {
     tradingView->setLayout(layout);
     layout->setAlignment(Qt::AlignCenter);
     layout->setSpacing(10);
-    layout->setContentsMargins(500,200,500,200);
+    layout->setContentsMargins(500,100,500,100);
     auto titleT=new QLabel("进行交易");
     titleT->setFont(QFont("Noto Sans SC",20,700));
     layout->addWidget(titleT,0,0,1,5);
@@ -436,16 +336,18 @@ void mainloop::TradingWith(int currentPlayer,int targetPlayer) {
         connect(accept,&stylizedButton::pressed,this,[=](){
             map.player[currentPlayer]->Earn(-sliderA->value()+sliderB->value());
             map.player[targetPlayer]->Earn(-sliderB->value()+sliderA->value());
-            for(auto i:*cityA){
-                map.player[currentPlayer]->Abandon(i);
-                map.player[targetPlayer]->Buy(i);
-                map.block[i]->Buy(targetPlayer);
-            }
-            for(auto i:*cityB){
-                map.player[targetPlayer]->Abandon(i);
-                map.player[currentPlayer]->Buy(i);
-                map.block[i]->Buy(currentPlayer);
-            }
+            if(!cityA->empty())
+                for(auto i:*cityA){
+                    map.player[currentPlayer]->Abandon(i);
+                    map.player[targetPlayer]->Buy(i);
+                    map.block[i]->Buy(targetPlayer);
+                }
+            if(!cityB->empty())
+                for(auto i:*cityB){
+                    map.player[targetPlayer]->Abandon(i);
+                    map.player[currentPlayer]->Buy(i);
+                    map.block[i]->Buy(currentPlayer);
+                }
             map.Update();
             delete tradingView;
             this->show();
@@ -516,6 +418,136 @@ void mainloop::Buy(int currentPlayer,int loc) {
     qLayout->addWidget(back, 2, 0, 1, 1);
     back->show();
     connect(back, &stylizedButton::clicked, this, [=]() {
+        pop->close();
+    });
+}
+
+void mainloop::blockOp(int current, int _block) {
+    QWidget* pop = new QWidget();
+    pop->setObjectName("informWidget");
+    pop->setStyleSheet("QWidget#informWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
+    pop->setParent(this->parentWidget());
+    pop->setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
+    pop->setFixedSize(1600, 900);
+    pop->move(0, 0);
+    pop->show();
+    QGridLayout* qLayout = new QGridLayout;
+    qLayout->setContentsMargins(300,100,300,100);
+    qLayout->setAlignment(Qt::AlignCenter);
+    pop->setLayout(qLayout);
+    QWidget* textView=new QWidget;
+    textView->setLayout(new QVBoxLayout);
+    QLabel *text = new QLabel();
+    QLabel *title = new QLabel("基本信息");
+    title->setFont(QFont("Noto Sans SC", 22, 700));
+    title->setAlignment(Qt::AlignCenter);
+    title->setStyleSheet("QLabel{color:white;}");
+    textView->layout()->addWidget(title);
+    text->setParent(pop);
+    if(map.block[_block]->Type() == "Property") {
+        text->setText( "地块名称：" + map.block[_block]->Name() + "\n"
+                      + map.block[_block]->Action() + "\n"
+                      + "地租\n"
+                      + "拥有该地块：￥" + QString::number(map.block[_block]->Price2()) + "\n"
+                      + "拥有整片同色地块：￥" + QString::number(map.block[_block]->Price2() * 2) + "\n"
+                      + "拥有 1 座房：￥" + QString::number(map.block[_block]->Price2() * 4) + "\n"
+                      + "拥有 2 座房：￥" + QString::number(map.block[_block]->Price2() * 12) + "\n"
+                      + "拥有 3 座房：￥" + QString::number(map.block[_block]->Price2() * 28) + "\n"
+                      + "拥有 4 座房：￥" + QString::number(map.block[_block]->Price2() * 34) + "\n"
+                      + "拥有 5 座房：￥" + QString::number(map.block[_block]->Price2() * 40) + "\n"
+                      + "买房：￥" + QString::number(map.block[_block]->Price1()) + "    卖房：￥" + QString::number(map.block[_block]->Price1() / 2) + "\n"
+                      + "抵押：￥" + QString::number(int(map.block[_block]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[_block]->Price0() * 0.55))
+        );
+    }
+    else if(map.block[_block]->Type() == "Railroad") {
+        text->setText(  "地块名称：" + map.block[_block]->Name() + "\n"
+                      + map.block[_block]->Action() + "\n"
+                      + "地租\n"
+                      + "拥有 1 个地铁站：￥25\n"
+                      + "拥有 2 个地铁站：￥50\n"
+                      + "拥有 3 个地铁站：￥100\n"
+                      + "拥有 4 个地铁站：￥200\n"
+                      + "抵押：￥" + QString::number(int(map.block[_block]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[_block]->Price0() * 0.55))
+        );
+    }
+    else if(map.block[_block]->Type() == "Utility") {
+        text->setText(  "地块名称：" + map.block[_block]->Name() + "\n"
+                      + map.block[_block]->Action() + "\n"
+                      + "地租\n"
+                      + "拥有 1 个公共设施：￥骰子点数 * 4\n"
+                      + "拥有 2 个公共设施：￥骰子点数 * 10\n"
+                      + "抵押：￥" + QString::number(int(map.block[_block]->Price0() * 0.5)) + "    赎回：￥" + QString::number(int(map.block[_block]->Price0() * 0.55))
+        );
+    }
+    else {
+        text->setText( "地块名称：" + map.block[_block]->Name() + "\n"
+                      + map.block[_block]->Action()
+        );
+    }
+    text->setFont(QFont("Noto Sans SC", 16, 500));
+    text->setMargin(10);
+    text->setAlignment(Qt::AlignCenter);
+    text->setStyleSheet("QLabel{color:white;}");
+    textView->layout()->addWidget(text);
+    qLayout->addWidget(textView,0,0,1,2);
+    textView->setStyleSheet("border:2px solid white");
+
+    stylizedButton* close = new stylizedButton("返回", 200, 50);
+    close->setParent(pop);
+    close->move(1300, 800);
+    close->show();
+    connect(close, &stylizedButton::clicked, this, [=]() {
+        pop->close();
+    });
+
+    stylizedButton* mortgage = new stylizedButton("抵押", 200, 50);
+    qLayout->addWidget(mortgage,2,1,1,1);
+    mortgage->show();
+    if(map.block[_block]->Owner() != current) mortgage->setDisabled(true);
+    else if(map.block[_block]->Mortgaged()) mortgage->setDisabled(true);
+    else if(map.block[_block]->House() > 0) mortgage->setDisabled(true);
+    else mortgage->setEnabled(true);
+    connect(mortgage, &stylizedButton::clicked, this, [=]() {
+        map.Mortgage(current, _block);
+        pop->close();
+    });
+
+    stylizedButton* redeem = new stylizedButton("赎回", 200, 50);
+    qLayout->addWidget(redeem,2,0,1,1);
+    redeem->show();
+    if(map.block[_block]->Owner() != current) redeem->setDisabled(true);
+    else if(!map.block[_block]->Mortgaged()) redeem->setDisabled(true);
+    else redeem->setEnabled(true);
+    connect(redeem, &stylizedButton::clicked, this, [=]() {
+        map.Redeem(current, _block);
+        pop->close();
+    });
+
+    stylizedButton* buy = new stylizedButton("买房", 200, 50);
+    qLayout->addWidget(buy,3,0,1,1);
+    buy->show();
+    if(map.block[_block]->Type() != "Property") buy->setDisabled(true);
+    else if(map.block[_block]->Owner() != current) buy->setDisabled(true);
+    else if(!map.block[_block]->United()) buy->setDisabled(true);
+    else if(map.block[_block]->Mortgaged()) buy->setDisabled(true);
+    else if(map.block[_block]->House() == 5) buy->setDisabled(true);
+    else buy->setEnabled(true);
+    connect(buy, &stylizedButton::clicked, this, [=]() {
+        map.Build(current, _block);
+        pop->close();
+    });
+
+    stylizedButton* sell = new stylizedButton("卖房", 200, 50);
+    qLayout->addWidget(sell,3,1,1,1);
+    sell->show();
+    if(map.block[_block]->Type() != "Property") sell->setDisabled(true);
+    else if(map.block[_block]->Owner() != current) sell->setDisabled(true);
+    else if(!map.block[_block]->United()) sell->setDisabled(true);
+    else if(map.block[_block]->Mortgaged()) sell->setDisabled(true);
+    else if(map.block[_block]->House() == 0) sell->setDisabled(true);
+    else sell->setEnabled(true);
+    connect(sell, &stylizedButton::clicked, this, [=]() {
+        map.Sell(current, _block);
         pop->close();
     });
 }

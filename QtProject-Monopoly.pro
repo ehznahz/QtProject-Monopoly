@@ -18,6 +18,7 @@ SOURCES += \
     sources/mainloop.cpp \
     sources/mainwindow.cpp \
     sources/playersymbol.cpp \
+    sources/playerview.cpp \
     sources/startmenu.cpp \
     sources/stylizedbutton.cpp \
     sources/stylizedspinbox.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     headers/mainloop.h \
     headers/mainwindow.h \
     headers/playersymbol.h \
+    headers/playerview.h \
     headers/startmenu.h \
     headers/stylizedbutton.h \
     headers/stylizedspinbox.h \

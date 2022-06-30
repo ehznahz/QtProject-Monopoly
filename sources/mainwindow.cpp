@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
         initMenu->hide();
         mainLoop->reset(std::move(_player),playerCount,roundLimit,pointEnabled);
         mainLoop->show();
-        mainLoop->gamestart();
+        mainLoop->gameStart();
     });
 
 }
