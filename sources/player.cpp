@@ -41,6 +41,7 @@ void Player::Wait() {
 void Player::Bankrupt() {
     money = 0;
     for(int i = 0; i < 40; ++i) get[i] = false;
+    active = 0;
     alive = false;
 }
 

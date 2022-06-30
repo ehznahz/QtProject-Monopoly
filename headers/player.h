@@ -41,7 +41,6 @@ public:
     void setBuildRate(double buildRate);
     playerSymbol symbol;
     const QString &getName() const;
-
 signals:
     void moneyChanged();
 };

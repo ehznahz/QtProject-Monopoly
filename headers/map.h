@@ -14,7 +14,7 @@ public:
     Map();
     void Move(int, int);
     void Update();
-    void Bankrupt(int, int);
+    void Bankrupt(int);
     void Buy(int, int);
     void Mortgage(int, int);
     void Redeem(int, int);

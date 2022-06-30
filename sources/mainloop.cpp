@@ -57,12 +57,8 @@ void mainloop::paintEvent(QPaintEvent *) {
     painter.drawPixmap(0, 0, this->width(), this->height(), bk);
 }
 
-<<<<<<< HEAD
-void mainloop::gamestart() {
-=======
 void mainloop::gameStart() {
->>>>>>> 1e5b73a058f207cd848213c0ee0f03ebd01b687b
-    int current = 0;
+    int current = 0, existplayer = map.playerNumber;
     //初始化地块按钮
     for (int i = 0; i < 40; ++i) {
         connect(map.block[i], &Block::clicked, this, [=, &current]() {
@@ -79,7 +75,7 @@ void mainloop::gameStart() {
     BtnTrading->move(1245, 350);
     BtnTrading->show();
 
-    connect(BtnBankrupt, &stylizedButton::pressed, this, [=, &current]() {
+    connect(BtnBankrupt, &stylizedButton::pressed, this, [=, &current, &existplayer]() {
         QWidget* pop = new QWidget();
         pop->setObjectName("bankruptWidget");
         pop->setStyleSheet("QWidget#bankruptWidget{border-image:url(:/resources/image/background-noIcon.png) 0 0 0 0 stretch stretch}");
@@ -91,10 +87,10 @@ void mainloop::gameStart() {
         stylizedButton* confirm = new stylizedButton("确定",230,50);
         confirm->setParent(pop);
         confirm->move(pop->width()*0.5+20,550);
-        connect(confirm,&stylizedButton::clicked,this,[=]() {
+        connect(confirm,&stylizedButton::clicked,this,[=,&existplayer]() {
             int loc = map.player[current]->Location();
-            if(map.player[current]->Money() >= 0) map.Bankrupt(current, -1);
-            else map.Bankrupt(current, map.block[loc]->Owner());
+            map.Bankrupt(current);
+            --existplayer;
             map.block[loc]->layout()->removeWidget(&map.player[current]->symbol);
             map.player[current]->symbol.setParent(nullptr);
             pView->setBankrupt(current);
@@ -123,11 +119,7 @@ void mainloop::gameStart() {
     });
     connect(&map, &Map::BuyOrNot, this, &mainloop::Buy);
 
-<<<<<<< HEAD
-   
-=======
->>>>>>> 1e5b73a058f207cd848213c0ee0f03ebd01b687b
-    for(; ; current = (current + 1) % map.playerNumber) {
+    for(; existplayer > 1; current = (current + 1) % map.playerNumber) {
         if(!map.player[current]->Alive()) continue;
         pView->setFocus(current);
         QEventLoop* el = new QEventLoop;
@@ -526,12 +518,12 @@ void mainloop::blockOp(int current, int _block) {
     stylizedButton* buy = new stylizedButton("买房", 200, 50);
     qLayout->addWidget(buy,3,0,1,1);
     buy->show();
-    if(map.block[_block]->Type() != "Property") buy->setDisabled(true);
-    else if(map.block[_block]->Owner() != current) buy->setDisabled(true);
-    else if(!map.block[_block]->United()) buy->setDisabled(true);
-    else if(map.block[_block]->Mortgaged()) buy->setDisabled(true);
-    else if(map.block[_block]->House() == 5) buy->setDisabled(true);
-    else buy->setEnabled(true);
+    if(map.block[_block]->Type() != "Property") buy->setDisabled(true), qDebug() << "000";
+    else if(map.block[_block]->Owner() != current) buy->setDisabled(true), qDebug() << "111";
+    else if(!map.block[_block]->United()) buy->setDisabled(true), qDebug() << "222";
+    else if(map.block[_block]->Mortgaged()) buy->setDisabled(true), qDebug() << "333";
+    else if(map.block[_block]->House() == 5) buy->setDisabled(true), qDebug() << "444";
+    else buy->setEnabled(true), qDebug() << "555";
     connect(buy, &stylizedButton::clicked, this, [=]() {
         map.Build(current, _block);
         pop->close();

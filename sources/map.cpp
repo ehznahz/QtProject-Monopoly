@@ -212,16 +212,13 @@ void Map::Update() {
         }
 }
 
-void Map::Bankrupt(int __player1, int __player2) {
+void Map::Bankrupt(int __player) {
     for (int i = 0; i < 40; ++i)
-        if (block[i]->Owner() == __player1) {
-            block[i]->Buy(__player2);
-            if (__player2 == -1)
-                for (block[i]->Redeem(); block[i]->House() > 0; block[i]->Sell())
-                    ;
+        if (block[i]->Owner() == __player) {
+            block[i]->Buy(-1);
+            for (block[i]->Redeem(); block[i]->House() > 0; block[i]->Sell());
         }
-    if (__player2 != -1) player[__player2]->Earn(player[__player1]->Money());
-    player[__player1]->Bankrupt();
+    player[__player]->Bankrupt();
     Update();
 }
 
