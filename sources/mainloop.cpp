@@ -234,8 +234,8 @@ void mainloop::gameStart(){
 
 	if(map.existPlayer == 1) {
 		int winner;
-		for(int i = 0; i < map.playerNumber; ++i) {
-			if(map.player[i]->Alive()) {
+        for(int i = 0; i < map.playerNumber; ++i) {
+            if(map.player[i]->Alive()) {
 				winner = i;
 				break;
 			}
@@ -594,6 +594,12 @@ void mainloop::blockOp(int current, int _block){
 	stylizedButton *buy = new stylizedButton("买房", 200, 50);
 	qLayout->addWidget(buy, 3, 0, 1, 1);
 	buy->show();
+    if(map.block[_block]->Type() != "Property") {buy->setDisabled(true);}
+    else if(map.block[_block]->Owner() != current) {buy->setDisabled(true);}
+    else if(!map.block[_block]->United()) {buy->setDisabled(true);}
+    else if(map.block[_block]->Mortgaged()) {buy->setDisabled(true);}
+    else if(map.block[_block]->House() == 5) {buy->setDisabled(true);}
+    else {buy->setEnabled(true);}
 	connect(buy, &stylizedButton::clicked, this, [=](){
 		map.Build(current, _block);
 		pop->close();

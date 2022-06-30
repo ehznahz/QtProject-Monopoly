@@ -27,7 +27,7 @@ void eventView::addEvent(const QString &event, int flag){
 	if(vol >= 1) {
 		m_layout->itemAt(1)->widget()->setFont(QFont("Noto Sans SC", 10, 500));
 	}
-	if(m_layout->sizeHint().height() > 460) {
+    if(m_layout->sizeHint().height() > 440) {
 		delete m_layout->takeAt(vol)->widget();
 		vol--;
 	}

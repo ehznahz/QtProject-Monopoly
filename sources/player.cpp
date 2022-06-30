@@ -46,7 +46,7 @@ void Player::Bankrupt(){
 }
 
 double Player::LuckyRate() const{
-	return lucky_rate - 1;
+    return lucky_rate;
 }
 
 double Player::EscapeRate() const{

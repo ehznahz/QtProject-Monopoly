@@ -90,7 +90,7 @@ void Map::Move(int __player, int __step){
 	}
 	//判断行动
 	if(block[loc]->Type() == "START") {
-		if(loc != 0)eView->addEvent(player[__player]->getName() + " 到达起点,获得 ￥400", 0);
+        eView->addEvent(player[__player]->getName() + " 到达起点,获得 ￥400", 0);
 		player[__player]->Earn(200);
 	} else if(block[loc]->Type() == "Jail") {
 	} else if(block[loc]->Type() == "Free Parking") {
@@ -137,7 +137,7 @@ void Map::Move(int __player, int __step){
 			eView->addEvent(player[__player]->getName() + " 在 " + block[loc]->getName() + " 向 " + player[block[loc]->Owner()]->getName() + " 支付了 ￥" + QString::number(int(cost * player[__player]->RentRate())), 0);
 		}
 	} else if(block[loc]->Type() == "Community Chest") {
-		int key = rand() % 32768 * (2 - player[__player]->LuckyRate());
+        int key = rand() % 32768 * (2 - player[__player]->LuckyRate());
 		if(key < 2048) {
 			Move(__player, (-loc + 40) % 40);
 			eView->addEvent(player[__player]->getName() + " 脚一滑,回到了原点", 2);
@@ -169,7 +169,7 @@ void Map::Move(int __player, int __step){
 			int price = 0;
 			for(int i = 0; i < 40; ++i) if(block[i]->Owner() == __player) price += block[i]->House() * 50;
 			player[__player]->Earn(-price);
-			eView->addEvent(player[__player]->getName() + " 的房产需要缴纳物业费,每个地块 ￥50", 2);
+            eView->addEvent(player[__player]->getName() + " 的房产需要缴纳物业费,每座房产 ￥50", 2);
 		}
 	} else if(block[loc]->Type() == "Chance") {
 		int key = rand() % 32768 * (2 - player[__player]->LuckyRate());
