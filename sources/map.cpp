@@ -137,27 +137,27 @@ void Map::Move(int __player, int __step) {
             eView->addEvent(player[__player]->getName()+" 在 "+block[loc]->getName()+" 向 "+player[block[loc]->Owner()]->getName()+" 支付了 ￥"+QString::number(int(cost * player[__player]->RentRate())),0);
         }
     } else if (block[loc]->Type() == "Community Chest") {
-        int key = rand() % 32 - player[__player]->LuckyRate() * 32;
-        if(key < 2) {
+        int key = rand() % 32768 * (2 - player[__player]->LuckyRate());
+        if(key < 2048) {
             Move(__player, (-loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 脚一滑,回到了原点",2);
-        } else if(key < 8) {
+        } else if(key < 8192) {
             player[__player]->Earn(60);
             eView->addEvent(player[__player]->getName()+" 获得每月餐补 ￥60",2);
-        } else if(key < 14) {
+        } else if(key < 14336) {
             int num = 0;
             for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
             player[__player]->Earn(10 * num);
             eView->addEvent(player[__player]->getName()+" 过生日,从每个人收取了 ￥10",2);
-        } else if(key < 20) {
+        } else if(key < 20480) {
             int num = 0;
             for(int i = 0; i < playerNumber; ++i) num += player[i]->Alive();
             player[__player]->Earn(-20 * num);
             eView->addEvent(player[__player]->getName()+" 请在场的各位喝奶茶,各花费 ￥20",2);
-        } else if(key < 26) {
+        } else if(key < 26624) {
             player[__player]->Earn(-100);
             eView->addEvent(player[__player]->getName()+" 手机坏了,维修花费 ￥100",2);
-        } else if(key < 30) {
+        } else if(key < 30720) {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
                 Move(__player, (10 - loc + 40) % 40);
                 eView->addEvent(player[__player]->getName()+" 不幸在树洞被禁言两回合",2);
@@ -172,32 +172,32 @@ void Map::Move(int __player, int __step) {
             eView->addEvent(player[__player]->getName()+" 的房产需要缴纳物业费,每个地块 ￥50",2);
         }
     } else if (block[loc]->Type() == "Chance") {
-        int key = rand() % 16 - player[__player]->LuckyRate() * 16;
-        if(key < 1) {
+        int key = rand() % 32768 * (2 - player[__player]->LuckyRate());
+        if(key < 2048) {
             Move(__player, (-loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往起点",1);
-        } else if(key < 2) {
+        } else if(key < 4096) {
             Move(__player, (5 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往北京大学东门站",1);
-        } else if(key < 3) {
+        } else if(key < 6144) {
             Move(__player, (15 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往人民大学站",1);
-        } else if(key < 4) {
+        } else if(key < 8192) {
             Move(__player, (25 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往海淀黄庄站",1);
-        } else if(key < 5) {
+        } else if(key < 10240) {
             Move(__player, (35 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往圆明园站",1);
-        } else if(key < 7) {
+        } else if(key < 14336) {
             Move(__player, 3);
             eView->addEvent(player[__player]->getName()+" 向前三步",1);
-        } else if(key < 9) {
+        } else if(key < 18432) {
             Move(__player, -3);
             eView->addEvent(player[__player]->getName()+" 向后三步",1);
-        } else if(key < 11) {
+        } else if(key < 22528) {
             Move(__player,(39 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往二体",1);
-        } else if(key < 13) {
+        } else if(key < 26624) {
             Move(__player, (21 - loc + 40) % 40);
             eView->addEvent(player[__player]->getName()+" 前往理科二号楼",1);
         } else {

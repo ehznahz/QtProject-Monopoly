@@ -25,7 +25,7 @@ std::map<int, bool> availableColor = {
         {0xc0c0c0, false}};
 
 QString defaultName[6] = {"Alice", "Bob", "Carol", "Dave", "Eve", "Francis"};
-double rates[4][4] = {{1.00,1.03,1.08,1.18}, //lucky
+double rates[4][4] = {{1.00,1.02,1.06,1.12}, //lucky
                       {1.00,0.90,0.81,0.60},  //build
                       {1.00,1.15,1.33,1.52},  //esc
                       {1.00,0.90,0.81,0.60}};  //rent
