@@ -25,10 +25,10 @@ std::map<int, bool> availableColor = {
         {0xc0c0c0, false}};
 
 QString defaultName[6] = {"Alice", "Bob", "Carol", "Dave", "Eve", "Francis"};
-double rates[4][4] = {{1.0,1.1,1.21,1.33}, //lucky
-                      {1.0,0.9,0.81,0.6},  //build
-                      {1.0,1.1,1.21,1.33},  //esc
-                      {1.0,0.9,0.8,0.6}};  //rent
+double rates[4][4] = {{1.00,1.03,1.08,1.18}, //lucky
+                      {1.00,0.90,0.81,0.60},  //build
+                      {1.00,1.15,1.33,1.52},  //esc
+                      {1.00,0.90,0.81,0.60}};  //rent
 int points[4] = {0,1,3,6};
 
 gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
