@@ -98,6 +98,11 @@ void Map::Move(int __player, int __step) {
         if(rand() % 32768 > player[__player]->EscapeRate() * 32768){
             player[__player]->Imprison();
             player[__player]->Move(20);
+            block[loc]->layout()->removeWidget(&player[__player]->symbol);
+            loc = player[__player]->Location();
+            player[__player]->symbol.setDirection(((loc/10)+1)%4);
+            player[__player]->symbol.setParent(nullptr);
+            block[loc]->layout()->addWidget(&player[__player]->symbol);
         }
         else {
             //TODO display
@@ -147,8 +152,13 @@ void Map::Move(int __player, int __step) {
             player[__player]->Earn(-100);
         } else if(key < 15) {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
-                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Move((10 - loc + 40) % 40);
                 player[__player]->Imprison();
+                block[loc]->layout()->removeWidget(&player[__player]->symbol);
+                loc = player[__player]->Location();
+                player[__player]->symbol.setDirection(((loc/10)+1)%4);
+                player[__player]->symbol.setParent(nullptr);
+                block[loc]->layout()->addWidget(&player[__player]->symbol);
             } else {
             }
         } else {
@@ -179,8 +189,13 @@ void Map::Move(int __player, int __step) {
             player[__player]->Move((21 - loc + 40) % 40);
         } else {
             if(rand() % 32768 > player[__player]->EscapeRate() * 32768) {
-                player[__player]->Move((20 - loc + 40) % 40);
+                player[__player]->Move((10 - loc + 40) % 40);
                 player[__player]->Imprison();
+                block[loc]->layout()->removeWidget(&player[__player]->symbol);
+                loc = player[__player]->Location();
+                player[__player]->symbol.setDirection(((loc/10)+1)%4);
+                player[__player]->symbol.setParent(nullptr);
+                block[loc]->layout()->addWidget(&player[__player]->symbol);
             } else {
             }
         }

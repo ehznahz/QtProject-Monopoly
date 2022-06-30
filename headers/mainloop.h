@@ -4,7 +4,7 @@
 #include "QWidget"
 #include "headers/map.h"
 #include "headers/dice.h"
-
+#include "headers/playerview.h"
 class mainloop : public QWidget
 {
     Q_OBJECT
@@ -12,12 +12,13 @@ class mainloop : public QWidget
     bool pointEnabled = false;
     Map map;
     Dice* dice;
+    playerView* pView;
 
 public:
     explicit mainloop(QWidget* parent = nullptr);
     void reset(QList<Player *> _player, int playerCount, int roundLimit, bool pointEnabled);
     void paintEvent(QPaintEvent*) override;
-    void gamestart();
+    void gameStart();
     void TradingSelect(int currentPlayer);
     void TradingWith(int currentPlayer,int targetPlayer);
     void blockOp(int current,int _block);

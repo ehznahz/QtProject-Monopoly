@@ -40,7 +40,7 @@ add_executable(QtProject-Monopoly
         sources/dice.cpp
         headers/bot.h
         sources/bot.cpp
-        headers/cardview.h sources/cardview.cpp)
+        headers/cardview.h sources/cardview.cpp sources/playerview.cpp headers/playerview.h)
 # 添加模块
 target_link_libraries(QtProject-Monopoly PRIVATE
         Qt6::Core

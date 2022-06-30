@@ -27,6 +27,7 @@ void Player::Abandon(int __block){
 
 void Player::Earn(int __money) {
     money += __money;
+    emit moneyChanged();
 }
 
 void Player::Imprison() {
