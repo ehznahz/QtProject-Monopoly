@@ -38,9 +38,12 @@ add_executable(QtProject-Monopoly
         sources/map.cpp
         headers/dice.h
         sources/dice.cpp
-        headers/bot.h
-        sources/bot.cpp
-        headers/cardview.h sources/cardview.cpp sources/playerview.cpp headers/playerview.h sources/eventview.cpp headers/eventview.h)
+        headers/cardview.h
+        sources/cardview.cpp
+        sources/playerview.cpp
+        headers/playerview.h
+        sources/eventview.cpp
+        headers/eventview.h)
 # 添加模块
 target_link_libraries(QtProject-Monopoly PRIVATE
         Qt6::Core

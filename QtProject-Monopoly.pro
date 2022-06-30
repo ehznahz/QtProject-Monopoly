@@ -12,6 +12,7 @@ SOURCES += \
     sources/cardview.cpp \
     sources/dice.cpp \
     sources/block.cpp \
+    sources/eventview.cpp \
     sources/eventwatcher.cpp \
     sources/gameinitial.cpp \
     sources/main.cpp \
@@ -24,12 +25,12 @@ SOURCES += \
     sources/stylizedspinbox.cpp \
     sources/map.cpp \
     sources/player.cpp \
-    sources/bot.cpp
 
 HEADERS += \
     headers/cardview.h \
     headers/dice.h \
     headers/block.h \
+    headers/eventview.h \
     headers/eventwatcher.h \
     headers/gameinitial.h \
     headers/mainloop.h \
@@ -41,7 +42,6 @@ HEADERS += \
     headers/stylizedspinbox.h \
     headers/map.h \
     headers/player.h \
-    headers/bot.h
 
 FORMS +=
 

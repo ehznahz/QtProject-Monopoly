@@ -79,16 +79,11 @@ gameInitial::gameInitial(QWidget *parent) : QWidget{parent} {
             leftFrame->setLayout(leftLayout);
             leftLayout->setSpacing(18);
             leftLayout->addWidget(leftText, 0, 0, 1, 2);
-            stylizedButton *playerSelect[6][2];
             auto nowColor = availableColor.begin();
             for (int i = 0; i < 6; ++i) {
                 playerView[i] = new QFrame();
                 playerView[i]->setObjectName("offlineView");
                 leftLayout->addWidget(playerView[i], 1 + (i / 2), i % 2);
-                playerSelect[i][1] = new stylizedButton(40, 40, ":/resources/image/icons/human.png", "", "", ":/resources/image/icons/robot.png");
-                playerSelect[i][1]->setCheckable(true);
-                playerSelect[i][1]->setParent(playerView[i]);
-                playerSelect[i][1]->move(196, 16);
                 nameInput[i] = new QLineEdit(defaultName[i]);
                 nameInput[i]->setFrame(false);
                 nameInput[i]->setParent(playerView[i]);
